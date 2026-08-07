@@ -14,7 +14,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Dashboard overview with completed levels and percentage progress for every investment category
 - Central dashboard backup and restore for all Star-Ups, Investments, presets, planner settings, and theme data
 - Freight Truck investment preview between Kingpins and Advanced Defenses, with all currently known investment names and under-construction details while resource data is incomplete
-- Verified Freight Truck level 1 data for Extra Run and Ultimate Protection, including Cash, Arms, Cargo, Metal, Diamonds, Oil, Crypto Coins, Family Currency, Family Insignia, Influence, and their known prerequisites; Gold and aggregate calculations remain marked as incomplete
+- Verified Freight Truck level 1 data for Extra Run and Ultimate Protection, including Cash, Arms, Cargo, Metal, Diamonds, Oil, Crypto Coins, Family Currency, Family Insignia, Influence, and their known prerequisites; both investments have max level 1, while Gold and aggregate calculations remain marked as incomplete
 - Complete Freight Truck `Basic Resource` source data for levels 1–5, including original unbuffed time, all resource costs, approximate Gold, Influence, and max level 5; the Details panel can browse all five known levels while the rest of Freight Truck remains under construction
 - Dedicated Investment and Star-Up data submission issue forms with screenshot evidence and cross-verification guidance; Investment submissions explicitly require the original unbuffed game time rather than a player-adjusted investment time
 - Footer `Submit data` menu with direct choices for Investment data and Star-Up data submissions
