@@ -12,6 +12,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - One-time automated cleanup of obsolete development branches
 - Shared responsive footer with links to the source repository, issues, contribution guide, and changelog
 - Dashboard overview with completed levels and percentage progress for every investment category
+- Central dashboard backup and restore for all Star-Ups, Investments, presets, planner settings, and theme data
 
 ### Changed
 
