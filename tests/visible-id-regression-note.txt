@@ -1,0 +1,1 @@
+All internal building IDs must remain hidden from the rendered Star-Up building cards.
