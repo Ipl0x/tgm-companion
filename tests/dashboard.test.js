@@ -18,8 +18,19 @@ test('dashboard exposes investment progress for every category', () => {
   assert.match(dashboardStyles, /\.category-progress-bar/);
 });
 
-test('dashboard category progress update is included in the offline cache release', () => {
+test('dashboard exposes complete backup and restore in quick actions', () => {
+  assert.match(dashboardHtml, /id="backupAllBtn"/);
+  assert.match(dashboardHtml, /id="restoreAllBtn"/);
+  assert.match(dashboardHtml, /id="restoreAllFile"/);
+  assert.match(dashboardController, /function downloadBackup\(\)/);
+  assert.match(dashboardController, /function restoreAllData\(file\)/);
+  assert.match(dashboardController, /initializeBackupControls\(\)/);
+  assert.match(dashboardStyles, /\.backup-controls/);
+});
+
+test('dashboard features are included in the offline cache release', () => {
   assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v\d+'/);
   assert.match(serviceWorker, /\.\/css\/dashboard\.css/);
   assert.match(serviceWorker, /\.\/src\/app\/dashboard\.js/);
+  assert.match(serviceWorker, /\.\/src\/shared\/backup\.js/);
 });
