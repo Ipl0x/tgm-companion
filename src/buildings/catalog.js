@@ -1,0 +1,48 @@
+export const buildingNames = Object.freeze({
+  1: "Warehouse",
+  2: "Ammo Shop",
+  3: "Smelter",
+  4: "Bank",
+  5: "Diamond Lab",
+  6: "Training Center",
+  7: "Hospital",
+  8: "Mansion",
+  9: "Vault",
+  10: "Investment Center",
+  11: "Faction Club",
+  12: "Wall",
+  13: "Radar",
+  14: "Faction Hotel",
+  15: "Workshop",
+  17: "Black Market",
+  18: "Hostage Cell",
+  19: "Interrogation Room",
+  24: "Commercial Street",
+  27: "Family Council",
+  28: "Research Center (T5)"
+});
+
+// Keep the original in-game planner order everywhere: cards, targets and results.
+export const buildingOrder = Object.freeze([
+  8,
+  27,
+  10,
+  6,
+  7,
+  15,
+  12,
+  14,
+  17,
+  11,
+  18,
+  19,
+  13,
+  9,
+  24,
+  5,
+  1,
+  2,
+  3,
+  4,
+  28
+]);

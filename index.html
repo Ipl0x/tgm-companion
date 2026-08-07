@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="application-name" content="TGM Companion">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TGM Companion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>TGM Companion Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dashboard-page">
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TGM</span>
+      <span><strong>TGM Companion</strong><small>Plan smarter. Upgrade faster.</small></span>
+    </a>
+    <nav class="tool-nav" aria-label="Planner tools">
+      <a class="tool-tab active" href="index.html">Dashboard</a>
+      <a class="tool-tab" href="star-ups.html">Building Star-Ups</a>
+      <a class="tool-tab" href="investments.html">Investments</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn btn-ghost install-app-btn" type="button" data-install-app hidden>Install app</button>
+      <button id="dashboardThemeBtn" class="icon-btn" type="button" aria-label="Toggle theme">☾</button>
+    </div>
+  </header>
+
+  <main class="shell dashboard-shell">
+    <section class="dashboard-hero">
+      <div>
+        <span class="eyebrow">THE GRAND MAFIA TOOL</span>
+        <h1>Your family<br><em>command center.</em></h1>
+        <p>Continue your building and investment plans from one place. Progress is read directly from the data saved in your browser.</p>
+      </div>
+      <div class="dashboard-overview panel">
+        <div><small>Combined progress</small><strong id="combinedPercent">0%</strong></div>
+        <div class="progress"><i id="combinedBar"></i></div>
+        <p id="combinedCaption">Start entering your current progress.</p>
+      </div>
+    </section>
+
+    <section class="dashboard-kpis" aria-label="Planner overview">
+      <article class="panel"><span class="metric-icon">★</span><div><small>Building stars entered</small><strong id="buildingStars">0 / 0</strong><p id="buildingPercentText">0% complete</p></div></article>
+      <article class="panel"><span class="metric-icon">⌁</span><div><small>Investment levels</small><strong id="investmentLevels">0 / 0</strong><p id="investmentPercentText">0% complete</p></div></article>
+      <article class="panel"><span class="metric-icon">▣</span><div><small>Saved building presets</small><strong id="presetCount">0</strong><p>Stored locally</p></div></article>
+      <article class="panel"><span class="metric-icon">◎</span><div><small>Current building target</small><strong id="currentTarget">Not set</strong><p id="currentTargetMeta">Open the planner to choose one</p></div></article>
+    </section>
+
+    <section class="tool-launch-grid" aria-label="Planner tools">
+      <a class="tool-launch panel star-launch" href="star-ups.html">
+        <div class="launch-top"><span class="step">01</span><span class="launch-arrow">→</span></div>
+        <div class="launch-icon">★</div>
+        <h2>Building Star-Ups</h2>
+        <p>Set current building stars, choose a target, and calculate every missing prerequisite with exact Family Currency and Insignia costs.</p>
+        <div class="launch-progress"><span><b id="buildingLaunchPercent">0%</b> building progress</span><div class="mini-progress"><i id="buildingLaunchBar"></i></div></div>
+        <span class="btn btn-primary launch-button">Open star-up planner <b>→</b></span>
+      </a>
+      <a class="tool-launch panel investment-launch" href="investments.html">
+        <div class="launch-top"><span class="step">02</span><span class="launch-arrow">→</span></div>
+        <div class="launch-icon">⌁</div>
+        <h2>Investments</h2>
+        <p>Explore every research tree, track completed levels, inspect dependencies, and calculate exact resource and time totals.</p>
+        <div class="launch-progress"><span><b id="investmentLaunchPercent">0%</b> investment progress</span><div class="mini-progress"><i id="investmentLaunchBar"></i></div></div>
+        <span class="btn btn-primary launch-button">Open investment planner <b>→</b></span>
+      </a>
+    </section>
+
+    <section class="dashboard-lower">
+      <article class="panel continue-card">
+        <div class="section-heading"><div><span class="step">03</span><h2>Continue planning</h2></div></div>
+        <div id="continueContent" class="continue-content"></div>
+      </article>
+      <article class="panel quick-card">
+        <div class="section-heading"><div><span class="step">04</span><h2>Quick actions</h2></div></div>
+        <div class="quick-actions">
+          <a href="star-ups.html#results" class="quick-action"><span>★</span><div><strong>Review building plan</strong><small>Return to your saved target</small></div><b>→</b></a>
+          <a href="investments.html" class="quick-action"><span>⌁</span><div><strong>Continue investment tree</strong><small>Your completed levels are saved</small></div><b>→</b></a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer><span>Unofficial community planner for The Grand Mafia</span><span>All data remains in your browser</span></footer>
+  <script type="module" src="src/app/dashboard.js"></script>
+</body>
+</html>

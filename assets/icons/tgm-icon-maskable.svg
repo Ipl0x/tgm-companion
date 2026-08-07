@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">TGM Companion maskable icon</title>
+  <desc id="desc">Maskable dark TGM icon with orange lettering.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#151b2b"/>
+      <stop offset="1" stop-color="#080b14"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff7a18"/>
+      <stop offset="1" stop-color="#ffb020"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#080b14"/>
+  <circle cx="256" cy="256" r="190" fill="url(#bg)" stroke="url(#accent)" stroke-width="16"/>
+  <path d="M150 170h212M150 342h212" stroke="#2e374d" stroke-width="9" stroke-linecap="round"/>
+  <text x="256" y="292" text-anchor="middle" fill="url(#accent)" font-family="Arial, Helvetica, sans-serif" font-size="104" font-weight="900" letter-spacing="4">TGM</text>
+</svg>

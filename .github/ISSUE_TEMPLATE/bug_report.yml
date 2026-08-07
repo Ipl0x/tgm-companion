@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a reproducible problem in TGM Companion
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping improve TGM Companion. Do not report security vulnerabilities here; follow SECURITY.md instead.
+
+  - type: dropdown
+    id: page
+    attributes:
+      label: Affected area
+      options:
+        - Dashboard
+        - Building Star-Ups
+        - Investments
+        - PWA installation or offline mode
+        - Import, export, or saved progress
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Problem
+      description: Describe what happened and what you expected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and operating system
+      placeholder: Edge 151 on Windows 11
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, target levels, category names, or imported data details. Do not include secrets or sensitive information.

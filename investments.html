@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="application-name" content="TGM Companion">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TGM Companion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>TGM Companion · Investments</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/investments.css">
+  <link rel="stylesheet" href="css/investments-legacy-tree.css">
+</head>
+<body class="investments-page">
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TGM</span>
+      <span><strong>TGM Companion</strong><small>Investment planner</small></span>
+    </a>
+    <nav class="tool-nav" aria-label="Planner tools">
+      <a class="tool-tab" href="index.html">Dashboard</a>
+      <a class="tool-tab" href="star-ups.html">Building Star-Ups</a>
+      <a class="tool-tab active" href="investments.html">Investments</a>
+    </nav>
+    <div class="top-actions">
+      <button id="investmentThemeBtn" class="icon-btn" type="button" aria-label="Toggle theme">☾</button>
+      <button id="resetInvestmentsBtn" class="btn btn-ghost" type="button">Reset progress</button>
+    </div>
+  </header>
+
+  <main class="investment-shell">
+    <section class="investment-hero">
+      <div>
+        <span class="eyebrow">THE GRAND MAFIA TOOL</span>
+        <h1>Investment <em>planner.</em></h1>
+        <p>Track completed research, inspect every level, and calculate all missing dependencies and resource totals from the supplied investment dataset.</p>
+      </div>
+      <div class="hero-tip panel">
+        <strong>How it works</strong>
+        <span>Select a category, click an investment, then use + or − to set its completed level.</span>
+      </div>
+    </section>
+
+    <div class="investment-layout">
+      <aside id="categories" class="investment-panel category-panel">
+        <div class="section-title"><span>01</span><div><h2>Categories</h2><p>Choose an investment tree</p></div></div>
+        <div class="category-search"><span>⌕</span><input id="investmentCategorySearch" type="search" placeholder="Search categories…" autocomplete="off"></div>
+        <ul id="investmentCategoryList" aria-label="Investment categories"></ul>
+        <form class="investment-options" onsubmit="return false">
+          <h3>Calculation options</h3>
+          <label for="buff">Investment buff</label><input type="text" value="400%" id="buff" inputmode="numeric" placeholder="400%">
+          <label for="helps">Help times</label><input type="number" value="0" id="helps" min="0" max="30" placeholder="0-30">
+          <label for="vip">VIP level</label><input type="number" value="15" id="vip" min="1" max="20" placeholder="1-20">
+          <h3>Import / export</h3>
+          <textarea id="data" aria-label="Investment progress data" spellcheck="false"></textarea>
+          <small>Copy this data or <a id="share_data" href="">share this link</a>.</small>
+          <button id="importInvestmentData" class="btn btn-ghost" type="button">Import pasted data</button>
+        </form>
+      </aside>
+
+      <section id="trees_container" class="investment-panel tree-panel">
+        <div class="section-title"><span>02</span><div><h2>Investment tree</h2><p>Use +/− on a node to change its completed level</p></div></div>
+        <div class="tree-category-heading">
+          <h3 id="treeTitle">Economy</h3>
+          <div class="tree-category-actions" aria-label="Category actions">
+            <button id="resetCategoryBtn" class="c_reset" type="button">reset</button>
+            <button id="maxCategoryBtn" class="c_max" type="button">max</button>
+          </div>
+        </div>
+        <div id="investmentTree" class="investment-tree" aria-live="polite"></div>
+        <button id="calculateCategoryBtn" class="c_all" type="button">calculate all</button>
+      </section>
+
+      <aside id="details" class="investment-panel details-panel">
+        <div class="section-title"><span>03</span><div><h2>Details</h2><p>Selected level and total prerequisites</p></div></div>
+        <h3 class="selected-investment">
+          <span id="inv_name_lvl">Select an investment</span>
+          <span class="level-actions"><button type="button" id="inv_lvl_down" aria-label="Previous investment level">−</button><button type="button" id="inv_lvl_up" aria-label="Next investment level">+</button></span>
+        </h3>
+        <table class="investment_details" id="details_inv">
+          <tbody>
+            <tr class="time_sec"><td>Time (sec):</td><td id="inv_time">0</td></tr>
+            <tr class="time_sec_buff"><td>Time with buffs:</td><td id="inv_time_buffs">0</td></tr>
+            <tr><td>Time:</td><td id="inv_time_human">0</td></tr>
+            <tr class="cash"><td>Cash:</td><td id="inv_cash">0</td></tr>
+            <tr class="arms"><td>Arms:</td><td id="inv_arms">0</td></tr>
+            <tr class="cargo"><td>Cargo:</td><td id="inv_cargo">0</td></tr>
+            <tr class="metal"><td>Metal:</td><td id="inv_metal">0</td></tr>
+            <tr class="diamonds separator"><td>Diamonds:</td><td id="inv_diamonds">0</td></tr>
+            <tr class="oil"><td>Oil:</td><td id="inv_oil">0</td></tr>
+            <tr class="crypto_coins"><td>Crypto Coins:</td><td id="inv_crypto_coins">0</td></tr>
+            <tr class="family_currency"><td>Family Currency:</td><td id="inv_family_currency">0</td></tr>
+            <tr class="family_insignia"><td>Family Insignia:</td><td id="inv_family_insignia">0</td></tr>
+            <tr class="gold"><td>Gold, approx.:</td><td id="inv_gold">0</td></tr>
+            <tr class="influence separator"><td>+Influence:</td><td id="inv_influence_increase">0</td></tr>
+            <tr><td colspan="2" class="dependencies-title">Dependencies</td></tr>
+            <tr class="separator"><td colspan="2" id="inv_dependencies"><span class="muted-detail">Select an investment node.</span></td></tr>
+          </tbody>
+        </table>
+        <table class="investment_details totals-table" id="details_deps_aggr" data-count="0">
+          <tbody>
+            <tr><th colspan="2">Required total <small>including selected investment</small></th></tr>
+            <tr><td>Investments:</td><td id="deps_investments">0</td></tr>
+            <tr><td>Time:</td><td id="deps_time_human">0</td></tr>
+            <tr class="cash"><td>Cash:</td><td id="deps_cash">0</td></tr>
+            <tr class="arms"><td>Arms:</td><td id="deps_arms">0</td></tr>
+            <tr class="cargo"><td>Cargo:</td><td id="deps_cargo">0</td></tr>
+            <tr class="metal"><td>Metal:</td><td id="deps_metal">0</td></tr>
+            <tr class="diamonds separator"><td>Diamonds:</td><td id="deps_diamonds">0</td></tr>
+            <tr class="oil"><td>Oil:</td><td id="deps_oil">0</td></tr>
+            <tr class="crypto_coins"><td>Crypto Coins:</td><td id="deps_crypto_coins">0</td></tr>
+            <tr class="family_currency"><td>Family Currency:</td><td id="deps_family_currency">0</td></tr>
+            <tr class="family_insignia"><td>Family Insignia:</td><td id="deps_family_insignia">0</td></tr>
+            <tr class="gold separator"><td>Gold:</td><td id="deps_gold">0</td></tr>
+            <tr class="influence"><td>+Influence:</td><td id="deps_influence_increase">0</td></tr>
+            <tr><td colspan="2" id="deps_investment_names"></td></tr>
+          </tbody>
+        </table>
+      </aside>
+    </div>
+  </main>
+
+  <footer><span>Unofficial community planner for The Grand Mafia</span><span>Investment progress is saved locally</span></footer>
+  <div id="investmentToast" class="toast">Done</div>
+  <script type="module" src="src/app/investments.js"></script>
+  <script type="module" src="src/app/investments-legacy-controls.js"></script>
+</body>
+</html>

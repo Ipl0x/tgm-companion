@@ -1,0 +1,67 @@
+name: Backup main
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 */12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: backup-main
+  cancel-in-progress: false
+
+jobs:
+  sync-backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out main history
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Remove obsolete branches on first backup
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads origin backup >/dev/null 2>&1; then
+            echo "The backup branch already exists; skipping one-time branch cleanup."
+            exit 0
+          fi
+
+          git fetch origin '+refs/heads/*:refs/remotes/origin/*' --prune
+
+          while IFS= read -r branch; do
+            case "$branch" in
+              HEAD|main|backup|'') continue ;;
+            esac
+
+            echo "Deleting obsolete branch: $branch"
+            git push origin --delete "$branch"
+          done < <(git for-each-ref --format='%(refname:strip=3)' refs/remotes/origin)
+
+      - name: Synchronize backup with main
+        shell: bash
+        run: |
+          git fetch origin main --prune
+          git push origin refs/remotes/origin/main:refs/heads/backup
+
+      - name: Verify backup commit
+        shell: bash
+        run: |
+          main_sha="$(git rev-parse refs/remotes/origin/main)"
+          backup_sha="$(git ls-remote origin refs/heads/backup | cut -f1)"
+          test -n "$backup_sha"
+          test "$main_sha" = "$backup_sha"
+          echo "backup now points to $backup_sha"

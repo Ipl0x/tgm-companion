@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="application-name" content="TGM Companion">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TGM Companion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>TGM Companion · Building Star-Ups</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TGM</span>
+      <span><strong>TGM Companion</strong><small>Building star-up planner</small></span>
+    </a>
+    <nav class="tool-nav" aria-label="Planner tools">
+      <a class="tool-tab" href="index.html">Dashboard</a>
+      <a class="tool-tab active" href="star-ups.html">Building Star-Ups</a>
+      <a class="tool-tab" href="investments.html">Investments</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn btn-ghost install-app-btn" type="button" data-install-app hidden>Install app</button>
+      <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle theme">☾</button>
+      <button id="shareBtn" class="btn btn-ghost" type="button">Share</button>
+      <button id="resetBtn" class="btn btn-ghost" type="button">Reset all</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">THE GRAND MAFIA TOOL</span>
+        <h1>Plan every building<br><em>star-up.</em></h1>
+        <p>Enter your current stars and choose a target. Every prerequisite and cost is calculated from the original game dataset.</p>
+      </div>
+      <div class="hero-stat">
+        <span>Entered progress</span><strong id="overallPercent">0%</strong>
+        <div class="progress"><i id="overallBar"></i></div><small id="overallCaption">0 stars entered</small>
+      </div>
+    </section>
+
+    <section class="workspace-bar panel">
+      <div class="search-wrap"><span>⌕</span><input id="buildingSearch" type="search" placeholder="Search buildings…" autocomplete="off"></div>
+      <div class="preset-controls">
+        <select id="presetSelect" aria-label="Saved preset"><option value="">Saved presets</option></select>
+        <button id="savePresetBtn" class="btn btn-ghost" type="button">Save preset</button>
+        <button id="deletePresetBtn" class="btn btn-ghost danger" type="button">Delete</button>
+      </div>
+      <div class="file-actions">
+        <button id="importBtn" class="btn btn-ghost" type="button">Import</button>
+        <button id="exportBtn" class="btn btn-ghost" type="button">Export</button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel buildings-panel">
+        <div class="panel-head">
+          <div><span class="step">01</span><h2>Current buildings</h2><p>Set the completed full-star level for each building. Implied prerequisites are filled automatically during calculation.</p></div>
+          <div class="segmented" role="group" aria-label="Building filter">
+            <button type="button" class="active" data-filter="all">All</button><button type="button" data-filter="core">Core</button><button type="button" data-filter="family">Other</button><button type="button" data-filter="economy">Economy</button>
+          </div>
+        </div>
+        <div id="buildingGrid" class="building-grid"></div>
+        <p id="emptySearch" class="empty-search hidden">No buildings match your search.</p>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel target-card">
+          <div class="panel-head compact"><div><span class="step">02</span><h2>Target</h2></div><label class="live-toggle"><input id="liveToggle" type="checkbox" checked><span></span>Live</label></div>
+          <label>Target building<select id="targetBuilding"></select></label>
+          <label>Target star level<div class="star-picker" id="targetStars" aria-label="Target star level"></div></label>
+          <div class="target-preview"><span id="targetIcon">FC</span><div><small>Selected target</small><strong id="targetSummary">Family Council → ★9</strong></div></div>
+          <button id="calculateBtn" class="btn btn-primary" type="button">Calculate plan <span>→</span></button>
+        </section>
+        <section class="panel tips-card"><span class="tip-icon">✦</span><div><strong>Exact source logic</strong><p>Dependencies and costs are read directly from the supplied data records.</p></div></section>
+      </aside>
+    </div>
+
+    <section id="results" class="panel results hidden" aria-live="polite">
+      <div class="panel-head results-head">
+        <div><span class="step">03</span><h2>Your upgrade plan</h2><p id="resultIntro"></p></div>
+        <div class="result-actions">
+          <select id="sortResults" aria-label="Sort results"><option value="default">Game order</option><option value="currency-desc">Highest currency</option><option value="insignia-desc">Highest insignia</option><option value="name">Building name</option></select>
+          <button id="csvBtn" class="btn btn-ghost" type="button">CSV</button><button id="copyBtn" class="btn btn-ghost" type="button">Copy</button>
+        </div>
+      </div>
+      <div class="result-kpis">
+        <article><small>Buildings to upgrade</small><strong id="upgradeCount">0</strong><span>requirements remaining</span></article>
+        <article><small>Family Currency</small><strong id="currencyTotal">0</strong><span>still required</span></article>
+        <article><small>Family Insignia</small><strong id="insigniaTotal">0</strong><span>still required</span></article>
+        <article><small>Target readiness</small><strong id="readinessPercent">0%</strong><div class="mini-progress"><i id="readinessBar"></i></div></article>
+      </div>
+      <div class="requirements-wrap"><h3>Requirements</h3><div class="requirements-table-wrap"><table class="requirements-table"><thead><tr><th>Building</th><th>Upgrade</th><th>Progress</th><th>Family Currency</th><th>Family Insignia</th></tr></thead><tbody id="requirementsBody"></tbody><tfoot><tr><th>Total</th><th></th><th></th><th id="tableCurrencyTotal">0</th><th id="tableInsigniaTotal">0</th></tr></tfoot></table></div></div>
+      <p class="data-note">Only missing prerequisites are shown. Completed and automatically implied prerequisites are skipped.</p>
+    </section>
+  </main>
+
+  <footer><span>Unofficial community planner for The Grand Mafia</span><span>All data remains in your browser</span></footer>
+  <div id="toast" class="toast">Done</div>
+  <script type="module" src="src/app/starups.js"></script>
+</body>
+</html>

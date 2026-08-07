@@ -1,0 +1,51 @@
+{
+  "name": "TGM Companion",
+  "short_name": "TGM",
+  "description": "Offline-capable planning tools for Building Star-Ups and Investments in The Grand Mafia.",
+  "id": "./",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#080b14",
+  "theme_color": "#0b1020",
+  "orientation": "any",
+  "lang": "en",
+  "categories": ["games", "utilities"],
+  "icons": [
+    {
+      "src": "assets/icons/tgm-icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/tgm-icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/tgm-icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Building Star-Ups",
+      "short_name": "Star-Ups",
+      "description": "Open the Building Star-Up planner.",
+      "url": "./star-ups.html",
+      "icons": [{"src": "assets/icons/tgm-icon-192.svg", "sizes": "192x192", "type": "image/svg+xml"}]
+    },
+    {
+      "name": "Investments",
+      "short_name": "Investments",
+      "description": "Open the Investments planner.",
+      "url": "./investments.html",
+      "icons": [{"src": "assets/icons/tgm-icon-192.svg", "sizes": "192x192", "type": "image/svg+xml"}]
+    }
+  ]
+}

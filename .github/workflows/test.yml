@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check JavaScript syntax
+        run: |
+          find src -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          node --check sw.js
+
+      - name: Check required application files
+        run: |
+          required_files=(
+            index.html
+            star-ups.html
+            investments.html
+            manifest.webmanifest
+            sw.js
+            .nojekyll
+            css/style.css
+            css/responsive.css
+            css/dashboard.css
+            css/investments.css
+            css/investments-legacy-tree.css
+            src/app/dashboard.js
+            src/app/starups.js
+            src/app/investments.js
+            src/app/pwa.js
+            .github/workflows/backup.yml
+            LICENSE
+            README.md
+            SECURITY.md
+            CONTRIBUTING.md
+            CHANGELOG.md
+          )
+
+          for file in "${required_files[@]}"; do
+            test -f "$file" || { echo "Missing required file: $file"; exit 1; }
+          done

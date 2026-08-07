@@ -1,0 +1,31 @@
+/* Restore the compact tree presentation and category controls from the original planner. */
+.tree-panel{min-height:720px;overflow:visible}
+.tree-category-heading{margin:0 4px 12px}
+.tree-category-heading h3{margin:0 0 16px;font-size:17px;line-height:1.2;color:var(--text)}
+.tree-category-actions{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tree-category-actions button,.c_all{border:0;border-radius:10px;padding:9px 13px;color:#fff;font:inherit;font-size:11px;font-weight:800;cursor:pointer;box-shadow:none}
+.c_reset{background:#c94850}
+.c_reset:hover{background:#db5760}
+.c_max{background:#c8861d}
+.c_max:hover{background:#dd9827}
+.c_all{display:block;margin:18px auto 0;background:#263752;color:var(--text)}
+.c_all:hover{background:#324766}
+.investment-tree{display:grid;gap:10px;overflow-x:auto;padding:0 2px 8px}
+.tree-row{display:flex;justify-content:center;align-items:flex-end;gap:10px;min-width:0}
+.tree-cell{width:160px;height:160px;min-height:160px;flex:0 0 160px}
+.tree-cell.empty{display:none}
+.investment-node{height:160px;padding:0;display:flex;flex-direction:column;justify-content:flex-end;gap:0;overflow:hidden;border-radius:15px;background:color-mix(in srgb,var(--surface2) 90%,transparent)}
+.investment-node:hover{transform:none}
+.node-main{width:100%;min-height:0;flex:1;display:flex;align-items:flex-end;justify-content:center;padding:12px 8px 7px;text-align:center}
+.node-main strong{font-size:11px;line-height:1.3;white-space:normal;overflow:visible;text-overflow:clip}
+.node-main small,.node-progress{display:none}
+.node-controls{position:relative;isolation:isolate;width:100%;height:31px;display:grid;grid-template-columns:29px 1fr 29px;gap:0;align-items:center;border-top:1px solid var(--line);background:var(--surface)}
+.node-controls:before{content:"";position:absolute;z-index:-1;inset:0 auto 0 0;width:var(--node-progress,0%);background:color-mix(in srgb,var(--accent) 20%,transparent)}
+.node-controls button{height:30px;width:29px;border:0;border-radius:0;background:color-mix(in srgb,var(--surface2) 82%,transparent);color:var(--text)}
+.node-controls button:first-child{border-right:1px solid var(--line)}
+.node-controls button:last-child{border-left:1px solid var(--line)}
+.node-controls span{font-size:11px;color:var(--text);font-weight:700}
+.investment-node.selected{border-color:var(--accent);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 55%,transparent)}
+.investment-node.complete{background:color-mix(in srgb,var(--good) 8%,var(--surface2))}
+@media(max-width:900px){.tree-panel{min-height:0}.tree-row{min-width:max-content}.tree-cell{width:135px;height:135px;min-height:135px;flex-basis:135px}.investment-node{height:135px}}
+@media(max-width:640px){.tree-cell{width:118px;height:118px;min-height:118px;flex-basis:118px}.investment-node{height:118px}.node-main strong{font-size:10px}}
