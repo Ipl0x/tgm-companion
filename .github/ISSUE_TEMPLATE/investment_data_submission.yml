@@ -145,12 +145,11 @@ body:
   - type: textarea
     id: prerequisites
     attributes:
-      label: Prerequisites / dependencies
-      description: List every required investment or building and its required level. Enter None when there are no prerequisites.
+      label: Investment prerequisites / dependencies
+      description: List only required investments and their required levels. Do not include building requirements. Enter None when there are no investment prerequisites.
       placeholder: |
         Lucky Hijack Lv. 5
         Lucky Recovery Lv. 5
-        Investment Center Lv. 10
     validations:
       required: true
 
@@ -158,7 +157,7 @@ body:
     id: evidence
     attributes:
       label: Screenshots / evidence
-      description: Upload screenshots showing the investment, level, original time, resources, and prerequisites so the values can be independently verified.
+      description: Upload screenshots showing the investment, level, original time, resources, and investment prerequisites so the values can be independently verified.
     validations:
       required: true
 
