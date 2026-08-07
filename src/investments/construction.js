@@ -227,6 +227,97 @@ const HIJACK_BOOST_LEVELS = Object.freeze([
     },
     goldApprox: 1051,
     influenceIncrease: 1948
+  }),
+  freightTruckKnownLevel({
+    level: 6,
+    originalTime: '3D 22:42:40',
+    timeSeconds: 340960,
+    resources: {
+      cash: 3072601,
+      arms: 1010985,
+      cargo: 1070455,
+      metal: 1288510,
+      diamonds: 1982323,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 1282,
+    influenceIncrease: 4093
+  }),
+  freightTruckKnownLevel({
+    level: 7,
+    originalTime: '4D 22:23:20',
+    timeSeconds: 426200,
+    resources: {
+      cash: 3840750,
+      arms: 1263731,
+      cargo: 1338068,
+      metal: 1610637,
+      diamonds: 2447903,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 1577,
+    influenceIncrease: 8597
+  }),
+  freightTruckKnownLevel({
+    level: 8,
+    originalTime: '6D 03:59:10',
+    timeSeconds: 532750,
+    resources: {
+      cash: 4800938,
+      arms: 1579664,
+      cargo: 1672585,
+      metal: 2013297,
+      diamonds: 3097379,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 1971,
+    influenceIncrease: 18056
+  }),
+  freightTruckKnownLevel({
+    level: 9,
+    originalTime: '7D 16:58:57',
+    timeSeconds: 665937,
+    resources: {
+      cash: 6001173,
+      arms: 1974580,
+      cargo: 2090731,
+      metal: 2516621,
+      diamonds: 3871724,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 2462,
+    influenceIncrease: 37924
+  }),
+  freightTruckKnownLevel({
+    level: 10,
+    originalTime: '9D 15:13:41',
+    timeSeconds: 832421,
+    resources: {
+      cash: 7501464,
+      arms: 2468224,
+      cargo: 2468224,
+      metal: 3145776,
+      diamonds: 4839654,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 3076,
+    influenceIncrease: 79653,
+    prerequisites: [{ name: 'Basic Resource', level: 5 }]
   })
 ]);
 
@@ -246,7 +337,8 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
       id: -1002,
       name: 'Hijack Boost',
       maxLevel: 10,
-      knownLevels: HIJACK_BOOST_LEVELS
+      knownLevels: HIJACK_BOOST_LEVELS,
+      dataComplete: true
     }),
     Object.freeze({ id: -1003, name: 'Safeguard Boost' }),
     Object.freeze({ id: -1004, name: 'Faster Shipment' }),
