@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'tgm-companion';
-const CACHE_VERSION = '2026-08-07-v7';
+const CACHE_VERSION = '2026-08-07-v8';
 const APP_CACHE = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -24,6 +24,7 @@ const APP_SHELL = [
   './src/app/investments-legacy-controls.js',
   './src/buildings/catalog.js',
   './src/buildings/engine.js',
+  './src/investments/construction.js',
   './src/investments/engine.js',
   './src/data/load.js',
   './src/shared/backup.js',
