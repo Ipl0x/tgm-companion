@@ -42,8 +42,7 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
       id: -1008,
       name: 'Ultimate Protection',
       knownLevel: freightTruckLevelOne([
-        { name: 'Extra Run', level: 1 },
-        { name: 'Investment Center', level: 10 }
+        { name: 'Extra Run', level: 1 }
       ])
     })
   ]),
