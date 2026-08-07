@@ -7,9 +7,11 @@ const LEGACY_BUILDING_LEVELS_KEY = 'tgm.buildings';
 const PRESET_KEY = 'tgm-star-up-presets-v1';
 const INVESTMENT_STATE_KEY = 'tgm.investments';
 const LEGACY_INVESTMENT_KEY = 'investments_data';
+const CATEGORY_ORDER = Object.freeze([1, 2, 3, 5, 7, 8, 9, 14, 15, 16, 17, 23, 18, 19, 20, 21, 22, 24, 25, 26]);
 const $ = selector => document.querySelector(selector);
 
 let investmentMaximums = new Map();
+let investmentCategories = [];
 
 function clamp(value, minimum, maximum) {
   return Math.max(minimum, Math.min(maximum, Number(value) || 0));
@@ -86,12 +88,52 @@ function investmentStats() {
     completed,
     maximum,
     tracked,
-    percent: maximum ? Math.round((completed / maximum) * 100) : 0
+    percent: maximum ? Math.round((completed / maximum) * 100) : 0,
+    levels
   };
 }
 
 function presetCount() {
   return Object.keys(objectValue(readState(PRESET_KEY, {}))).length;
+}
+
+function categoryProgress(category, levels) {
+  let completed = 0;
+  let maximum = 0;
+
+  for (const id of category.investmentIds) {
+    const maxLevel = investmentMaximums.get(id) || 0;
+    completed += clamp(levels[id], 0, maxLevel);
+    maximum += maxLevel;
+  }
+
+  return {
+    completed,
+    maximum,
+    percent: maximum ? Math.round((completed / maximum) * 100) : 0
+  };
+}
+
+function renderInvestmentCategories(investments) {
+  const container = $('#investmentCategoryProgress');
+  if (!container) return;
+
+  if (!investmentCategories.length) {
+    container.innerHTML = '<div class="empty-dashboard category-progress-empty">Investment category data could not be loaded.</div>';
+    return;
+  }
+
+  container.innerHTML = investmentCategories.map(category => {
+    const progress = categoryProgress(category, investments.levels);
+    return `<a class="investment-category-item" href="investments.html" aria-label="Open ${category.name} investments">
+      <div class="investment-category-heading">
+        <strong>${category.name}</strong>
+        <span>${progress.percent}%</span>
+      </div>
+      <div class="category-progress-bar" aria-hidden="true"><i style="width:${progress.percent}%"></i></div>
+      <small>${progress.completed.toLocaleString()} / ${progress.maximum.toLocaleString()} levels</small>
+    </a>`;
+  }).join('');
 }
 
 function renderContinueCard(buildings) {
@@ -138,6 +180,7 @@ function render() {
   $('#buildingLaunchBar').style.width = `${buildings.percent}%`;
   $('#investmentLaunchPercent').textContent = `${investments.percent}%`;
   $('#investmentLaunchBar').style.width = `${investments.percent}%`;
+  renderInvestmentCategories(investments);
   renderContinueCard(buildings);
 }
 
@@ -149,23 +192,40 @@ function initializeTheme() {
   });
 }
 
-async function loadInvestmentMaximums() {
+async function loadInvestmentMetadata() {
   try {
     const rowMap = await loadInvestmentRowMap();
     investmentMaximums = new Map();
+    const categoriesById = new Map();
+
     for (const entry of rowMap) {
-      const id = String(entry[2]);
+      const categoryId = Number(entry[0]);
+      const categoryName = String(entry[1]);
+      const investmentId = String(entry[2]);
       const level = Number(entry[4]) || 0;
-      investmentMaximums.set(id, Math.max(investmentMaximums.get(id) || 0, level));
+
+      investmentMaximums.set(investmentId, Math.max(investmentMaximums.get(investmentId) || 0, level));
+      if (!categoriesById.has(categoryId)) {
+        categoriesById.set(categoryId, { id: categoryId, name: categoryName, investmentIds: new Set() });
+      }
+      categoriesById.get(categoryId).investmentIds.add(investmentId);
     }
+
+    investmentCategories = [
+      ...CATEGORY_ORDER.map(id => categoriesById.get(id)).filter(Boolean),
+      ...[...categoriesById.values()]
+        .filter(category => !CATEGORY_ORDER.includes(category.id))
+        .sort((a, b) => a.id - b.id)
+    ];
   } catch (error) {
     console.error('Unable to load investment progress metadata.', error);
     investmentMaximums = new Map();
+    investmentCategories = [];
   }
 }
 
 initializeTheme();
-await loadInvestmentMaximums();
+await loadInvestmentMetadata();
 render();
 window.addEventListener('storage', render);
 window.addEventListener('pageshow', render);
