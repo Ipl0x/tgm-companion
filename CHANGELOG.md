@@ -14,6 +14,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Dashboard overview with completed levels and percentage progress for every investment category
 - Central dashboard backup and restore for all Star-Ups, Investments, presets, planner settings, and theme data
 - Freight Truck investment preview between Kingpins and Advanced Defenses, with all currently known investment names and under-construction details while resource data is incomplete
+- Verified Freight Truck level 1 data for Extra Run and Ultimate Protection, including Cash, Arms, Cargo, Metal, Diamonds, and their known prerequisites; unavailable fields and aggregate calculations remain marked as incomplete
 
 ### Changed
 
