@@ -1,3 +1,19 @@
+const FREIGHT_TRUCK_LEVEL_ONE_RESOURCES = Object.freeze({
+  cash: 33480002,
+  arms: 11016001,
+  cargo: 11664001,
+  metal: 14040001,
+  diamonds: 21600001
+});
+
+function freightTruckLevelOne(prerequisites) {
+  return Object.freeze({
+    level: 1,
+    resources: FREIGHT_TRUCK_LEVEL_ONE_RESOURCES,
+    prerequisites: Object.freeze(prerequisites.map(prerequisite => Object.freeze(prerequisite)))
+  });
+}
+
 export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
   id: -100,
   name: 'Freight Truck',
@@ -9,8 +25,22 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
     Object.freeze({ id: -1004, name: 'Faster Shipment' }),
     Object.freeze({ id: -1005, name: 'Lucky Hijack' }),
     Object.freeze({ id: -1006, name: 'Lucky Recovery' }),
-    Object.freeze({ id: -1007, name: 'Extra Run' }),
-    Object.freeze({ id: -1008, name: 'Ultimate Protection' })
+    Object.freeze({
+      id: -1007,
+      name: 'Extra Run',
+      knownLevel: freightTruckLevelOne([
+        { name: 'Lucky Hijack', level: 5 },
+        { name: 'Lucky Recovery', level: 5 }
+      ])
+    }),
+    Object.freeze({
+      id: -1008,
+      name: 'Ultimate Protection',
+      knownLevel: freightTruckLevelOne([
+        { name: 'Extra Run', level: 1 },
+        { name: 'Investment Center', level: 10 }
+      ])
+    })
   ]),
   layout: Object.freeze([
     Object.freeze(['', -1001, '', '']),
@@ -36,7 +66,7 @@ export function registerConstructionInvestments(categoriesById, investments) {
       ...definition,
       categoryId: category.id,
       categoryName: category.name,
-      maxLevel: 0,
+      maxLevel: definition.knownLevel?.level || 0,
       order: Number.MAX_SAFE_INTEGER - FREIGHT_TRUCK_CATEGORY.investments.length + index,
       levels: new Map(),
       underConstruction: true
