@@ -1,4 +1,5 @@
 import { createInvestmentEngine } from '../investments/engine.js';
+import { FREIGHT_TRUCK_CATEGORY, registerConstructionInvestments } from '../investments/construction.js';
 import { loadInvestmentRecords, loadInvestmentRowMap } from '../data/load.js';
 import { duration, number } from '../shared/format.js';
 import { readState, writeState } from '../shared/storage.js';
@@ -7,12 +8,13 @@ const STORAGE_KEY = 'tgm.investments';
 const OPTIONS_KEY = 'tgm-investment-options-v1';
 const UI_KEY = 'tgm-investment-ui-v1';
 const LEGACY_KEY = 'investments_data';
-const CATEGORY_ORDER = Object.freeze([1, 2, 3, 5, 7, 8, 9, 14, 15, 16, 17, 23, 18, 19, 20, 21, 22, 24, 25, 26]);
+const CATEGORY_ORDER = Object.freeze([1, 2, 3, 5, FREIGHT_TRUCK_CATEGORY.id, 7, 8, 9, 14, 15, 16, 17, 23, 18, 19, 20, 21, 22, 24, 25, 26]);
 const TREE_LAYOUT = Object.freeze({
   'Economy': [[6, '', 2, ''], [9, 4, 3, 5], [1, '', 7, '']],
   'Defenses': [['', 10, '', ''], [13, 12, 11, ''], [15, 14, 16, ''], ['', 70, '', ''], [23, 20, 17, ''], ['', 71, '', ''], [24, 21, 18, ''], ['', 72, '', ''], [25, 22, 19, '']],
   'Crew': [[42, '', '', ''], [43, 38, '', ''], [26, 28, 27, 29], [30, 32, 31, 33], [44, 47, 50, 53], [34, 36, 35, 37], [45, 48, 51, 54], [40, 39, 41, ''], [46, 49, 52, 55]],
   'Kingpins': [['', 76, '', ''], [74, 83, 81, ''], ['', 77, '', ''], [85, 73, 87, ''], [91, '', 93, ''], ['', 78, '', ''], [86, '', 88, ''], [92, '', 94, ''], ['', 79, '', ''], [90, '', 89, ''], [75, '', 82, ''], ['', 84, '', ''], ['', 80, '', '']],
+  'Freight Truck': FREIGHT_TRUCK_CATEGORY.layout,
   'Advanced Defenses': [['', 56, '', ''], [57, 59, 58, ''], ['', 60, '', ''], [62, 61, 63, ''], ['', 64, '', ''], [65, 67, 66, ''], ['', 68, '', ''], ['', 69, '', '']],
   'Advanced Crew': [[119, '', '', ''], [95, 96, 97, 98], [99, 100, 101, 102], [118, 191, 103, ''], [104, 105, 106, 107], [108, 117, 109, ''], [116, 120, 110, ''], [111, 112, 113, 114], ['', 115, 306, '']],
   'City Hall Weapons': [[124, 121, 122, ''], ['', 162, '', ''], [164, '', 163, ''], ['', 165, '', ''], [143, 141, 128, ''], [125, 126, 127, ''], ['', 123, '', ''], [130, 129, 131, ''], ['', 132, '', ''], [134, '', 135, ''], ['', 133, '', '']],
@@ -55,6 +57,7 @@ rowMap.forEach((entry, index) => {
   investment.maxLevel = Math.max(investment.maxLevel, level);
   investment.levels.set(level, rowId);
 });
+registerConstructionInvestments(categoriesById, investments);
 
 const categories = [
   ...CATEGORY_ORDER.map(id => categoriesById.get(id)).filter(Boolean),
@@ -108,14 +111,14 @@ function normalizeImportedProgress(value) {
     for (const [level, ids] of Object.entries(source)) {
       for (const id of ids) {
         const investment = investments.get(Number(id));
-        if (investment) normalized[String(id)] = clamp(level, 0, investment.maxLevel);
+        if (investment && !investment.underConstruction) normalized[String(id)] = clamp(level, 0, investment.maxLevel);
       }
     }
     return normalized;
   }
   for (const [id, level] of Object.entries(source)) {
     const investment = investments.get(Number(id));
-    if (investment) normalized[String(id)] = clamp(level, 0, investment.maxLevel);
+    if (investment && !investment.underConstruction) normalized[String(id)] = clamp(level, 0, investment.maxLevel);
   }
   return normalized;
 }
@@ -124,7 +127,7 @@ function groupedProgress() {
   const grouped = {};
   for (const [id, levelRaw] of Object.entries(completed)) {
     const investment = investments.get(Number(id));
-    const level = investment ? clamp(levelRaw, 0, investment.maxLevel) : 0;
+    const level = investment && !investment.underConstruction ? clamp(levelRaw, 0, investment.maxLevel) : 0;
     if (!level) continue;
     if (!grouped[level]) grouped[level] = [];
     grouped[level].push(Number(id));
@@ -155,22 +158,25 @@ function toast(message) {
 }
 
 function categoryProgress(category) {
+  if (category.underConstruction) return { current: 0, maximum: 0, percent: 0, underConstruction: true };
   let current = 0;
   let maximum = 0;
   for (const id of category.investments) {
     const investment = investments.get(id);
+    if (!investment) continue;
     current += clamp(completed[id], 0, investment.maxLevel);
     maximum += investment.maxLevel;
   }
-  return { current, maximum, percent: maximum ? Math.round((current / maximum) * 100) : 0 };
+  return { current, maximum, percent: maximum ? Math.round((current / maximum) * 100) : 0, underConstruction: false };
 }
 
 function renderCategories() {
   $('#investmentCategoryList').innerHTML = categories.map(category => {
     const progress = categoryProgress(category);
-    return `<li data-category-id="${category.id}" class="${category.id === state.categoryId ? 'active' : ''}">
+    const status = progress.underConstruction ? 'WIP' : `${progress.percent}%`;
+    return `<li data-category-id="${category.id}" data-construction="${category.underConstruction === true}" class="${category.id === state.categoryId ? 'active' : ''}">
       <button class="category-link" type="button" data-category="${category.id}">${category.name}</button>
-      <span class="category_progress">${progress.percent}%</span>
+      <span class="category_progress">${status}</span>
     </li>`;
   }).join('');
   filterCategories();
@@ -207,8 +213,11 @@ function ensureSelection() {
     investment = investments.get(state.investmentId);
   }
   if (investment) {
-    const current = clamp(completed[investment.id], 0, investment.maxLevel);
-    state.targetLevel = clamp(state.targetLevel || Math.min(current + 1, investment.maxLevel), 1, investment.maxLevel);
+    if (investment.underConstruction) state.targetLevel = 1;
+    else {
+      const current = clamp(completed[investment.id], 0, investment.maxLevel);
+      state.targetLevel = clamp(state.targetLevel || Math.min(current + 1, investment.maxLevel), 1, investment.maxLevel);
+    }
   }
   saveUi();
 }
@@ -216,9 +225,17 @@ function ensureSelection() {
 function renderNode(id) {
   if (!id || !investments.has(Number(id))) return '<div class="tree-cell empty" aria-hidden="true"></div>';
   const investment = investments.get(Number(id));
+  const selected = investment.id === state.investmentId;
+
+  if (investment.underConstruction) {
+    return `<div class="tree-cell"><article class="investment-node construction-node ${selected ? 'selected' : ''}" data-investment-id="${investment.id}">
+      <button type="button" class="node-main" data-action="select" data-id="${investment.id}"><strong title="${investment.name}">${investment.name}</strong><small>Details pending</small></button>
+      <div class="construction-node-status">Coming soon</div>
+    </article></div>`;
+  }
+
   const current = clamp(completed[investment.id], 0, investment.maxLevel);
   const percent = investment.maxLevel ? Math.round((current / investment.maxLevel) * 100) : 0;
-  const selected = investment.id === state.investmentId;
   return `<div class="tree-cell"><article class="investment-node ${selected ? 'selected' : ''} ${current >= investment.maxLevel ? 'complete' : ''}" data-investment-id="${investment.id}">
     <button type="button" class="node-main" data-action="select" data-id="${investment.id}"><strong title="${investment.name}">${investment.name}</strong><small>Investment ${investment.id}</small></button>
     <div class="node-progress"><i style="width:${percent}%"></i></div>
@@ -233,6 +250,11 @@ function renderTree() {
     return;
   }
   $('#treeTitle').textContent = category.name;
+  const construction = category.underConstruction === true;
+  for (const id of ['resetCategoryBtn', 'maxCategoryBtn', 'calculateCategoryBtn']) {
+    const button = document.getElementById(id);
+    if (button) button.hidden = construction;
+  }
   const layout = layoutForCategory(category);
   $('#investmentTree').innerHTML = layout.map(row => `<div class="tree-row">${Array.from({ length: 4 }, (_, index) => renderNode(row[index])).join('')}</div>`).join('');
 }
@@ -285,9 +307,34 @@ function renderRequiredNames(names) {
   return `<details><summary>All Investments: <small>(click to expand)</small></summary><ul class="required-investments">${names.map(name => `<li>${name}</li>`).join('')}</ul></details>`;
 }
 
+function setConstructionMode(enabled) {
+  const notice = $('#investmentConstructionNotice');
+  const details = $('#details_inv');
+  const totals = $('#details_deps_aggr');
+  const levelActions = document.querySelector('.selected-investment .level-actions');
+  if (notice) notice.hidden = !enabled;
+  if (details) details.hidden = enabled;
+  if (totals) totals.hidden = enabled;
+  if (levelActions) levelActions.hidden = enabled;
+}
+
+function renderConstructionDetails(investment) {
+  setConstructionMode(true);
+  setText('inv_name_lvl', investment.name);
+  setText('investmentConstructionMessage', `${investment.name} is still under construction because not all data is available for this investment yet.`);
+  state.targetLevel = 1;
+  saveUi();
+}
+
 function renderDetails() {
   const investment = investments.get(state.investmentId);
   if (!investment) return;
+  if (investment.underConstruction) {
+    renderConstructionDetails(investment);
+    return;
+  }
+
+  setConstructionMode(false);
   state.targetLevel = clamp(state.targetLevel, 1, investment.maxLevel);
   const row = engine.rowForLevel(investment.id, state.targetLevel);
   if (!row) return;
@@ -321,7 +368,9 @@ function setCategory(categoryId) {
   state.categoryId = Number(categoryId);
   state.investmentId = firstInvestmentForCategory(categoriesById.get(state.categoryId));
   const investment = investments.get(state.investmentId);
-  state.targetLevel = investment ? Math.min(clamp(completed[investment.id], 0, investment.maxLevel) + 1, investment.maxLevel) : 1;
+  state.targetLevel = investment?.underConstruction
+    ? 1
+    : investment ? Math.min(clamp(completed[investment.id], 0, investment.maxLevel) + 1, investment.maxLevel) : 1;
   renderCategories();
   renderTree();
   renderDetails();
@@ -333,17 +382,25 @@ function selectInvestment(investmentId, targetLevel) {
   if (!investment) return;
   state.categoryId = investment.categoryId;
   state.investmentId = investment.id;
-  const current = clamp(completed[investment.id], 0, investment.maxLevel);
-  state.targetLevel = clamp(targetLevel ?? Math.min(current + 1, investment.maxLevel), 1, investment.maxLevel);
+  if (investment.underConstruction) state.targetLevel = 1;
+  else {
+    const current = clamp(completed[investment.id], 0, investment.maxLevel);
+    state.targetLevel = clamp(targetLevel ?? Math.min(current + 1, investment.maxLevel), 1, investment.maxLevel);
+  }
   renderCategories();
   renderTree();
   renderDetails();
   saveUi();
+  if (investment.underConstruction) toast(`${investment.name} is under construction`);
 }
 
 function changeCompleted(investmentId, amount) {
   const investment = investments.get(Number(investmentId));
   if (!investment) return;
+  if (investment.underConstruction) {
+    toast(`${investment.name} is under construction`);
+    return;
+  }
   completed[String(investment.id)] = clamp((Number(completed[investment.id]) || 0) + amount, 0, investment.maxLevel);
   state.categoryId = investment.categoryId;
   state.investmentId = investment.id;

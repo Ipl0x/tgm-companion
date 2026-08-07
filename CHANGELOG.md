@@ -13,6 +13,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Shared responsive footer with links to the source repository, issues, contribution guide, and changelog
 - Dashboard overview with completed levels and percentage progress for every investment category
 - Central dashboard backup and restore for all Star-Ups, Investments, presets, planner settings, and theme data
+- Freight Truck investment preview between Kingpins and Advanced Defenses, with all currently known investment names and under-construction details while resource data is incomplete
 
 ### Changed
 

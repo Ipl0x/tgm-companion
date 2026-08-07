@@ -37,6 +37,7 @@ function objectValue(value) {
 
 function activeCategory() {
   const active = document.querySelector('#investmentCategoryList li.active');
+  if (active?.dataset.construction === 'true') return null;
   const categoryId = Number(active?.dataset.categoryId);
   return categories.get(categoryId) || categories.values().next().value;
 }
@@ -129,9 +130,19 @@ function renderCategoryTotals() {
 
 function restoreSingleDetails() {
   const details = document.querySelector('#details_inv');
+  const totals = document.querySelector('#details_deps_aggr');
   const levelActions = document.querySelector('.selected-investment .level-actions');
-  if (details) details.style.display = '';
-  if (levelActions) levelActions.style.display = '';
+  const constructionNotice = document.querySelector('#investmentConstructionNotice');
+  if (constructionNotice) constructionNotice.hidden = true;
+  if (details) {
+    details.hidden = false;
+    details.style.display = '';
+  }
+  if (totals) totals.hidden = false;
+  if (levelActions) {
+    levelActions.hidden = false;
+    levelActions.style.display = '';
+  }
   const heading = document.querySelector('#details_deps_aggr th');
   if (heading) heading.innerHTML = 'Required total <small>including selected investment</small>';
 }
@@ -149,10 +160,12 @@ document.querySelector('#resetCategoryBtn')?.addEventListener('click', () => set
 document.querySelector('#maxCategoryBtn')?.addEventListener('click', () => setCategoryLevels('max'));
 document.querySelector('#calculateCategoryBtn')?.addEventListener('click', renderCategoryTotals);
 document.querySelector('#investmentTree')?.addEventListener('click', event => {
+  if (event.target.closest('.construction-node')) return;
   if (event.target.closest('[data-action]')) restoreSingleDetails();
   window.setTimeout(applyProgressBackgrounds, 0);
 });
-document.querySelector('#investmentCategoryList')?.addEventListener('click', () => {
+document.querySelector('#investmentCategoryList')?.addEventListener('click', event => {
+  if (event.target.closest('li[data-construction="true"]')) return;
   restoreSingleDetails();
   window.setTimeout(applyProgressBackgrounds, 0);
 });
