@@ -33,7 +33,7 @@ body:
     attributes:
       label: Target star / step shown
       description: Enter the exact next Star-Up level or intermediate step shown by the game.
-      placeholder: Example: Star 9 or the exact intermediate star step shown
+      placeholder: "Example: Star 9 or the exact intermediate star step shown"
     validations:
       required: true
 
