@@ -62,15 +62,15 @@ test('Extra Run level 1 uses the supplied resources, influence, and prerequisite
   ]);
 });
 
-test('Ultimate Protection level 1 uses the supplied resources, influence, and prerequisites', () => {
+test('Ultimate Protection level 1 depends only on Extra Run level 1', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Ultimate Protection');
   assert.equal(investment.knownLevel.level, 1);
   assert.deepEqual(investment.knownLevel.resources, EXPECTED_LEVEL_ONE_RESOURCES);
   assert.equal(investment.knownLevel.influenceIncrease, 152043);
   assert.deepEqual(investment.knownLevel.prerequisites, [
-    { name: 'Extra Run', level: 1 },
-    { name: 'Investment Center', level: 10 }
+    { name: 'Extra Run', level: 1 }
   ]);
+  assert.equal(investment.knownLevel.prerequisites.some(item => item.name === 'Investment Center'), false);
 });
 
 test('Freight Truck keeps incomplete calculations disabled while showing known level details', () => {
