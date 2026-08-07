@@ -17,7 +17,7 @@ body:
     attributes:
       label: Investment category
       description: Enter the investment tree/category.
-      placeholder: Freight Truck
+      placeholder: "Freight Truck"
     validations:
       required: true
 
@@ -25,7 +25,7 @@ body:
     id: investment
     attributes:
       label: Investment name
-      placeholder: Extra Run
+      placeholder: "Extra Run"
     validations:
       required: true
 
@@ -47,23 +47,98 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: investment_data
+  - type: markdown
     attributes:
-      label: Resources, Gold, and Influence
-      description: Enter every value exactly as shown for this level. Use 0 only when confirmed by the game and Unknown when a value cannot yet be verified.
-      placeholder: |
-        Cash: 
-        Arms: 
-        Cargo: 
-        Metal: 
-        Diamonds: 
-        Oil: 
-        Crypto Coins: 
-        Family Currency: 
-        Family Insignia: 
-        Gold: 
-        Influence: 
+      value: |
+        ### Resources, Gold, and Influence
+        Enter every value exactly as shown for this level. Use `0` only when confirmed by the game and `Unknown` when a value cannot yet be verified.
+
+  - type: input
+    id: cash
+    attributes:
+      label: Cash
+      placeholder: "Example: 33,480,002"
+    validations:
+      required: true
+
+  - type: input
+    id: arms
+    attributes:
+      label: Arms
+      placeholder: "Example: 11,016,001"
+    validations:
+      required: true
+
+  - type: input
+    id: cargo
+    attributes:
+      label: Cargo
+      placeholder: "Example: 11,664,001"
+    validations:
+      required: true
+
+  - type: input
+    id: metal
+    attributes:
+      label: Metal
+      placeholder: "Example: 14,040,001"
+    validations:
+      required: true
+
+  - type: input
+    id: diamonds
+    attributes:
+      label: Diamonds
+      placeholder: "Example: 21,600,001"
+    validations:
+      required: true
+
+  - type: input
+    id: oil
+    attributes:
+      label: Oil
+      placeholder: "Example: 0"
+    validations:
+      required: true
+
+  - type: input
+    id: crypto_coins
+    attributes:
+      label: Crypto Coins
+      placeholder: "Example: 0"
+    validations:
+      required: true
+
+  - type: input
+    id: family_currency
+    attributes:
+      label: Family Currency
+      placeholder: "Example: 0"
+    validations:
+      required: true
+
+  - type: input
+    id: family_insignia
+    attributes:
+      label: Family Insignia
+      placeholder: "Example: 0"
+    validations:
+      required: true
+
+  - type: input
+    id: gold
+    attributes:
+      label: Gold
+      description: Enter the known Gold value, or `Unknown` when it is not yet verified.
+      placeholder: "Unknown"
+    validations:
+      required: true
+
+  - type: input
+    id: influence
+    attributes:
+      label: Influence
+      placeholder: "Example: 152,043"
     validations:
       required: true
 
