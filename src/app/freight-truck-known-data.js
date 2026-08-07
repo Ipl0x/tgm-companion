@@ -72,7 +72,7 @@ function renderKnownLevel(investmentId, requestedLevel) {
   setText('inv_time_human', level.originalTime || 'Unknown');
   for (const field of RESOURCE_FIELDS) setText(`inv_${field}`, 'Unknown');
   for (const [field, value] of Object.entries(level.resources)) setText(`inv_${field}`, number(value));
-  setText('inv_gold', level.goldApprox == null ? 'Unknown' : `~${number(level.goldApprox)}`);
+  setText('inv_gold', level.goldApprox == null ? 'Unknown' : number(level.goldApprox));
   setText('inv_influence_increase', number(level.influenceIncrease));
 
   const dependencies = document.getElementById('inv_dependencies');
