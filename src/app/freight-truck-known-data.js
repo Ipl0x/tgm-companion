@@ -62,8 +62,9 @@ function enhanceKnownNodes() {
     if (!node) continue;
     const description = node.querySelector('.node-main small');
     const status = node.querySelector('.construction-node-status');
-    if (description) description.textContent = `Level ${investment.knownLevel.level} data available`;
-    if (status) status.textContent = 'Partial data';
+    const descriptionText = `Level ${investment.knownLevel.level} data available`;
+    if (description && description.textContent !== descriptionText) description.textContent = descriptionText;
+    if (status && status.textContent !== 'Partial data') status.textContent = 'Partial data';
   }
 }
 
