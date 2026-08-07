@@ -136,6 +136,100 @@ const BASIC_RESOURCE_LEVELS = Object.freeze([
   })
 ]);
 
+const HIJACK_BOOST_LEVELS = Object.freeze([
+  freightTruckKnownLevel({
+    level: 1,
+    originalTime: '1D 07:02:06',
+    timeSeconds: 111726,
+    resources: {
+      cash: 1006831,
+      arms: 331280,
+      cargo: 350767,
+      metal: 422220,
+      diamonds: 649568,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 516,
+    influenceIncrease: 192,
+    prerequisites: [{ name: 'Basic Resource', level: 1 }]
+  }),
+  freightTruckKnownLevel({
+    level: 2,
+    originalTime: '1D 14:47:37',
+    timeSeconds: 139657,
+    resources: {
+      cash: 1258539,
+      arms: 414100,
+      cargo: 438459,
+      metal: 527775,
+      diamonds: 811960,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 635,
+    influenceIncrease: 210
+  }),
+  freightTruckKnownLevel({
+    level: 3,
+    originalTime: '2D 00:29:32',
+    timeSeconds: 174572,
+    resources: {
+      cash: 1573171,
+      arms: 517624,
+      cargo: 548073,
+      metal: 659717,
+      diamonds: 1014949,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 746,
+    influenceIncrease: 442
+  }),
+  freightTruckKnownLevel({
+    level: 4,
+    originalTime: '2D 12:36:55',
+    timeSeconds: 218215,
+    resources: {
+      cash: 1966465,
+      arms: 647031,
+      cargo: 685091,
+      metal: 824647,
+      diamonds: 1268687,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 879,
+    influenceIncrease: 928
+  }),
+  freightTruckKnownLevel({
+    level: 5,
+    originalTime: '3D 03:46:08',
+    timeSeconds: 272768,
+    resources: {
+      cash: 2458080,
+      arms: 808788,
+      cargo: 856364,
+      metal: 1030808,
+      diamonds: 1585858,
+      oil: 0,
+      crypto_coins: 0,
+      family_currency: 0,
+      family_insignia: 0
+    },
+    goldApprox: 1051,
+    influenceIncrease: 1948
+  })
+]);
+
 export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
   id: -100,
   name: 'Freight Truck',
@@ -144,10 +238,16 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
     Object.freeze({
       id: -1001,
       name: 'Basic Resource',
+      maxLevel: 5,
       knownLevels: BASIC_RESOURCE_LEVELS,
       dataComplete: true
     }),
-    Object.freeze({ id: -1002, name: 'Hijack Boost' }),
+    Object.freeze({
+      id: -1002,
+      name: 'Hijack Boost',
+      maxLevel: 10,
+      knownLevels: HIJACK_BOOST_LEVELS
+    }),
     Object.freeze({ id: -1003, name: 'Safeguard Boost' }),
     Object.freeze({ id: -1004, name: 'Faster Shipment' }),
     Object.freeze({ id: -1005, name: 'Lucky Hijack' }),
@@ -155,6 +255,7 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
     Object.freeze({
       id: -1007,
       name: 'Extra Run',
+      maxLevel: 1,
       knownLevel: extraUltimateLevelOne([
         { name: 'Lucky Hijack', level: 5 },
         { name: 'Lucky Recovery', level: 5 }
@@ -163,6 +264,7 @@ export const FREIGHT_TRUCK_CATEGORY = Object.freeze({
     Object.freeze({
       id: -1008,
       name: 'Ultimate Protection',
+      maxLevel: 1,
       knownLevel: extraUltimateLevelOne([
         { name: 'Extra Run', level: 1 }
       ])
@@ -197,7 +299,7 @@ export function registerConstructionInvestments(categoriesById, investments) {
       ...definition,
       categoryId: category.id,
       categoryName: category.name,
-      maxLevel: maxKnownLevel(definition),
+      maxLevel: Number(definition.maxLevel) || maxKnownLevel(definition),
       order: Number.MAX_SAFE_INTEGER - FREIGHT_TRUCK_CATEGORY.investments.length + index,
       levels: new Map(),
       underConstruction: true
