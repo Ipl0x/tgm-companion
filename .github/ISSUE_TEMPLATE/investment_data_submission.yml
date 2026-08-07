@@ -42,7 +42,7 @@ body:
     attributes:
       label: Original investment time shown by the game
       description: Enter the unmodified/base time exactly as shown in-game. Do not enter your buffed or reduced investment time.
-      placeholder: Example: 12d 03:04:05
+      placeholder: "Example: 12d 03:04:05"
     validations:
       required: true
 
