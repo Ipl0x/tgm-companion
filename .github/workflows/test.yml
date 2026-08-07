@@ -47,6 +47,8 @@ jobs:
             src/app/investments.js
             src/app/pwa.js
             .github/workflows/backup.yml
+            .github/ISSUE_TEMPLATE/investment_data_submission.yml
+            .github/ISSUE_TEMPLATE/star_up_data_submission.yml
             LICENSE
             README.md
             SECURITY.md

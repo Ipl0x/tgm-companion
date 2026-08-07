@@ -1,0 +1,92 @@
+name: Submit Star-Up data
+description: Submit building Star-Up costs or prerequisite data so it can be cross-checked before inclusion
+title: "[Data][Star-Up]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the TGM Companion Star-Up dataset.
+
+        Submitted values are treated as **unverified source data**. They are only added to the maintained dataset after they can be cross-checked against screenshots and/or multiple independent submissions.
+
+        Please submit the values **exactly as shown by the game** for the specific building and Star-Up step.
+
+  - type: input
+    id: building
+    attributes:
+      label: Building name
+      placeholder: Mansion
+    validations:
+      required: true
+
+  - type: input
+    id: current_star
+    attributes:
+      label: Current completed star level
+      description: The building's completed star level immediately before this upgrade step.
+      placeholder: "8"
+    validations:
+      required: true
+
+  - type: input
+    id: target_step
+    attributes:
+      label: Target star / step shown
+      description: Enter the exact next Star-Up level or intermediate step shown by the game.
+      placeholder: "Example: Star 9 or the exact intermediate star step shown"
+    validations:
+      required: true
+
+  - type: input
+    id: family_currency
+    attributes:
+      label: Family Currency cost
+      description: Enter `0` only when the game confirms the cost is zero. Use `Unknown` when not verified.
+      placeholder: 1,234,567
+    validations:
+      required: true
+
+  - type: input
+    id: family_insignia
+    attributes:
+      label: Family Insignia cost
+      description: Enter `0` only when the game confirms the cost is zero. Use `Unknown` when not verified.
+      placeholder: 12,345
+    validations:
+      required: true
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Required buildings / prerequisites
+      description: List every building prerequisite and required star level shown for this Star-Up step. Write `None` when there are none.
+      placeholder: |
+        Family Council Star 8
+        Wall Star 8
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots / evidence
+      description: Drag or paste screenshots showing the building, exact Star-Up step, costs, and prerequisites so the submission can be independently verified.
+      placeholder: Drag screenshots here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Include intermediate-star information or anything else needed to interpret the screenshot correctly.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Submission confirmation
+      options:
+        - label: I entered values from the specified building and Star-Up step and did not intentionally substitute calculated or estimated values for game data.
+          required: true
+        - label: The screenshots/evidence correspond to the values submitted above.
+          required: true
