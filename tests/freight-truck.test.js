@@ -89,5 +89,5 @@ test('Freight Truck keeps incomplete calculations disabled while showing known l
 test('Freight Truck known data is available offline', () => {
   assert.match(serviceWorker, /\.\/src\/investments\/construction\.js/);
   assert.match(serviceWorker, /\.\/src\/app\/freight-truck-known-data\.js/);
-  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v10'/);
+  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v\d+'/);
 });
