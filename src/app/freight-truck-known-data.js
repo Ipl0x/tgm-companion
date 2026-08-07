@@ -41,6 +41,8 @@ function renderKnownLevel(investmentId, requestedLevel) {
   selectedLevels.set(investment.id, Number(level.level));
 
   const levelIndex = levels.findIndex(item => Number(item.level) === Number(level.level));
+  const lastKnownLevel = Number(levels.at(-1).level);
+  const maxLevel = Number(investment.maxLevel) || lastKnownLevel;
   const notice = document.getElementById('investmentConstructionNotice');
   const details = document.getElementById('details_inv');
   const totals = document.getElementById('details_deps_aggr');
@@ -59,8 +61,10 @@ function renderKnownLevel(investmentId, requestedLevel) {
   setText(
     'investmentConstructionMessage',
     investment.dataComplete
-      ? `${investment.name} data is complete for levels 1–${levels.at(-1).level}. Freight Truck is still under construction because other investments are incomplete.`
-      : `${investment.name} level ${level.level} data is available, but this investment is still under construction because not all data is available yet.`
+      ? `${investment.name} data is complete for levels 1–${lastKnownLevel}. Freight Truck is still under construction because other investments are incomplete.`
+      : maxLevel > lastKnownLevel
+        ? `${investment.name} level ${level.level} data is available. Known data currently covers levels ${levels[0].level}–${lastKnownLevel} of max level ${maxLevel}; the remaining levels are still under construction.`
+        : `${investment.name} level ${level.level} data is available, but this investment is still under construction because not all data is available yet.`
   );
 
   setText('inv_time', level.timeSeconds == null ? 'Unknown' : number(level.timeSeconds));
@@ -88,13 +92,17 @@ function enhanceKnownNodes() {
     const node = document.querySelector(`.investment-node[data-investment-id="${investmentId}"]`);
     if (!node) continue;
     const levels = levelsFor(investment);
+    const lastKnownLevel = Number(levels.at(-1).level);
+    const maxLevel = Number(investment.maxLevel) || lastKnownLevel;
     const description = node.querySelector('.node-main small');
     const status = node.querySelector('.construction-node-status');
     const descriptionText = investment.dataComplete
-      ? `Levels 1–${levels.at(-1).level} data complete`
-      : levels.length === 1
-        ? `Level ${levels[0].level} data available`
-        : `Levels ${levels[0].level}–${levels.at(-1).level} data available`;
+      ? `Levels 1–${lastKnownLevel} data complete`
+      : maxLevel > lastKnownLevel
+        ? `Levels ${levels[0].level}–${lastKnownLevel} of ${maxLevel} data available`
+        : levels.length === 1
+          ? `Level ${levels[0].level} data available`
+          : `Levels ${levels[0].level}–${lastKnownLevel} data available`;
     const statusText = investment.dataComplete ? 'Data complete' : 'Partial data';
     if (description && description.textContent !== descriptionText) description.textContent = descriptionText;
     if (status && status.textContent !== statusText) status.textContent = statusText;
