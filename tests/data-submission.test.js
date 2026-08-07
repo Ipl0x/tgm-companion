@@ -35,7 +35,10 @@ test('investment data form captures source values needed for verification', () =
   assert.match(investmentForm, /placeholder: "Example: 33,480,002"/);
   assert.match(investmentForm, /placeholder: "Example: 0"/);
   assert.match(investmentForm, /placeholder: "Unknown"/);
-  assert.match(investmentForm, /Prerequisites \/ dependencies/);
+  assert.match(investmentForm, /Investment prerequisites \/ dependencies/);
+  assert.match(investmentForm, /List only required investments and their required levels/);
+  assert.match(investmentForm, /Do not include building requirements/);
+  assert.doesNotMatch(investmentForm, /Investment Center Lv\. 10/);
   assert.match(investmentForm, /type: upload/);
   assert.match(investmentForm, /Screenshots \/ evidence/);
   assert.match(investmentForm, /multiple independent submissions/);
