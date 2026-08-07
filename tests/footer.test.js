@@ -10,6 +10,8 @@ test('shared project footer exposes repository and contribution links', async ()
   assert.match(footerController, /className = 'site-footer'/);
   assert.match(footerController, /github\.com\/Ipl0x\/tgm-companion/);
   assert.match(footerController, /github\.com\/Ipl0x\/tgm-companion\/issues/);
+  assert.match(footerController, /issues\/new\?template=feature_request\.yml/);
+  assert.match(footerController, /Request feature/);
   assert.match(footerController, /CONTRIBUTING\.md/);
   assert.match(footerController, /CHANGELOG\.md/);
 });

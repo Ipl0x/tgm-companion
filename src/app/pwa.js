@@ -36,6 +36,7 @@ function ensureProjectFooter() {
     <nav class="footer-links" aria-label="Project links">
       <a href="https://github.com/Ipl0x/tgm-companion" target="_blank" rel="noopener noreferrer">View source</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues" target="_blank" rel="noopener noreferrer">Report issue</a>
+      <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request feature</a>
       <a href="https://github.com/Ipl0x/tgm-companion/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute</a>
       <a href="https://github.com/Ipl0x/tgm-companion/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Changelog</a>
     </nav>
