@@ -3,13 +3,18 @@ const FREIGHT_TRUCK_LEVEL_ONE_RESOURCES = Object.freeze({
   arms: 11016001,
   cargo: 11664001,
   metal: 14040001,
-  diamonds: 21600001
+  diamonds: 21600001,
+  oil: 0,
+  crypto_coins: 0,
+  family_currency: 0,
+  family_insignia: 0
 });
 
 function freightTruckLevelOne(prerequisites) {
   return Object.freeze({
     level: 1,
     resources: FREIGHT_TRUCK_LEVEL_ONE_RESOURCES,
+    influenceIncrease: 152043,
     prerequisites: Object.freeze(prerequisites.map(prerequisite => Object.freeze(prerequisite)))
   });
 }
