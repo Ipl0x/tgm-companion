@@ -1,0 +1,178 @@
+name: Submit Investment data
+description: Submit game data for an Investment level so it can be cross-checked before inclusion
+title: "[Data][Investment]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the TGM Companion dataset.
+
+        Submitted values are treated as **unverified source data**. They are only added to the maintained dataset after they can be cross-checked against screenshots and/or multiple independent submissions.
+
+        **Important for time:** submit the **original/base investment time shown by the game**. Do **not** submit a time already reduced by your personal Investment Buff, VIP level, Family Help, or other speed modifiers.
+
+  - type: input
+    id: category
+    attributes:
+      label: Investment category
+      description: The investment tree/category this investment belongs to.
+      placeholder: Freight Truck
+    validations:
+      required: true
+
+  - type: input
+    id: investment
+    attributes:
+      label: Investment name
+      placeholder: Extra Run
+    validations:
+      required: true
+
+  - type: input
+    id: level
+    attributes:
+      label: Investment level
+      description: The exact level these values belong to.
+      placeholder: "1"
+    validations:
+      required: true
+
+  - type: input
+    id: original_time
+    attributes:
+      label: Original investment time shown by the game
+      description: Enter the unmodified/base time exactly as shown in-game. Do not enter your buffed or reduced investment time.
+      placeholder: Example: 12d 03:04:05
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: "### Resource costs\nEnter the exact value shown for this level. Use `0` when the cost is confirmed to be zero and `Unknown` only when the value cannot currently be verified."
+
+  - type: input
+    id: cash
+    attributes:
+      label: Cash
+      placeholder: 33,480,002
+    validations:
+      required: true
+
+  - type: input
+    id: arms
+    attributes:
+      label: Arms
+      placeholder: 11,016,001
+    validations:
+      required: true
+
+  - type: input
+    id: cargo
+    attributes:
+      label: Cargo
+      placeholder: 11,664,001
+    validations:
+      required: true
+
+  - type: input
+    id: metal
+    attributes:
+      label: Metal
+      placeholder: 14,040,001
+    validations:
+      required: true
+
+  - type: input
+    id: diamonds
+    attributes:
+      label: Diamonds
+      placeholder: 21,600,001
+    validations:
+      required: true
+
+  - type: input
+    id: oil
+    attributes:
+      label: Oil
+      placeholder: "0"
+    validations:
+      required: true
+
+  - type: input
+    id: crypto_coins
+    attributes:
+      label: Crypto Coins
+      placeholder: "0"
+    validations:
+      required: true
+
+  - type: input
+    id: family_currency
+    attributes:
+      label: Family Currency
+      placeholder: "0"
+    validations:
+      required: true
+
+  - type: input
+    id: family_insignia
+    attributes:
+      label: Family Insignia
+      placeholder: "0"
+    validations:
+      required: true
+
+  - type: input
+    id: gold
+    attributes:
+      label: Gold
+      description: Enter the known Gold value, or `Unknown` when it is not yet verified.
+      placeholder: Unknown
+    validations:
+      required: true
+
+  - type: input
+    id: influence
+    attributes:
+      label: Influence increase
+      description: The +Influence value for this investment level.
+      placeholder: 152,043
+    validations:
+      required: true
+
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Prerequisites / dependencies
+      description: List every required investment/building and its required level. Write `None` when there are no prerequisites.
+      placeholder: |
+        Lucky Hijack Lv. 5
+        Lucky Recovery Lv. 5
+        Investment Center Lv. 10
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots / evidence
+      description: Drag or paste screenshots showing the submitted level, original time, resources, and prerequisites. Clear screenshots make independent verification possible.
+      placeholder: Drag screenshots here.
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Add anything that may help us interpret or verify the data.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Submission confirmation
+      options:
+        - label: I entered values from the specified investment level and did not intentionally substitute calculated or estimated values for game data.
+          required: true
+        - label: The time I submitted is the original/base time shown by the game, not my personally buffed or reduced investment time.
+          required: true
