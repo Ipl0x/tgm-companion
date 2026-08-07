@@ -112,9 +112,10 @@ test('Basic Resource has complete source data for levels 1 through 5', () => {
   assert.ok(investment.knownLevels.every(level => level.prerequisites.length === 0));
 });
 
-test('Extra Run level 1 uses the supplied resources, influence, and prerequisites', () => {
+test('Extra Run has exactly one level and uses the supplied data', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Extra Run');
   assert.equal(investment.knownLevel.level, 1);
+  assert.equal(investment.knownLevels, undefined);
   assert.deepEqual(investment.knownLevel.resources, EXPECTED_EXTRA_ULTIMATE_LEVEL_ONE_RESOURCES);
   assert.equal(investment.knownLevel.influenceIncrease, 152043);
   assert.deepEqual(investment.knownLevel.prerequisites, [
@@ -123,9 +124,10 @@ test('Extra Run level 1 uses the supplied resources, influence, and prerequisite
   ]);
 });
 
-test('Ultimate Protection level 1 depends only on Extra Run level 1', () => {
+test('Ultimate Protection has exactly one level and depends only on Extra Run level 1', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Ultimate Protection');
   assert.equal(investment.knownLevel.level, 1);
+  assert.equal(investment.knownLevels, undefined);
   assert.deepEqual(investment.knownLevel.resources, EXPECTED_EXTRA_ULTIMATE_LEVEL_ONE_RESOURCES);
   assert.equal(investment.knownLevel.influenceIncrease, 152043);
   assert.deepEqual(investment.knownLevel.prerequisites, [
@@ -146,6 +148,7 @@ test('known Freight Truck data supports complete multi-level browsing without en
   assert.match(knownDataController, /setText\('inv_time_human', level\.originalTime \|\| 'Unknown'\)/);
   assert.match(knownDataController, /`~\$\{number\(level\.goldApprox\)\}`/);
   assert.match(knownDataController, /Not calculated/);
+  assert.match(knownDataController, /levelActions\.hidden = levels\.length <= 1/);
   assert.match(knownDataController, /totals\.hidden = true/);
   assert.match(knownDataController, /event\.stopImmediatePropagation\(\)/);
 });
