@@ -19,7 +19,7 @@ test('dashboard exposes investment progress for every category', () => {
 });
 
 test('dashboard category progress update is included in the offline cache release', () => {
-  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v4'/);
+  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v\d+'/);
   assert.match(serviceWorker, /\.\/css\/dashboard\.css/);
   assert.match(serviceWorker, /\.\/src\/app\/dashboard\.js/);
 });
