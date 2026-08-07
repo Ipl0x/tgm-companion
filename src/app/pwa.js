@@ -37,6 +37,13 @@ function ensureProjectFooter() {
       <a href="https://github.com/Ipl0x/tgm-companion" target="_blank" rel="noopener noreferrer">View source</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues" target="_blank" rel="noopener noreferrer">Report issue</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request feature</a>
+      <details class="footer-data-menu">
+        <summary>Submit data</summary>
+        <div class="footer-data-options">
+          <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=investment_data_submission.yml" target="_blank" rel="noopener noreferrer">Investment data</a>
+          <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=star_up_data_submission.yml" target="_blank" rel="noopener noreferrer">Star-Up data</a>
+        </div>
+      </details>
       <a href="https://github.com/Ipl0x/tgm-companion/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contribute</a>
       <a href="https://github.com/Ipl0x/tgm-companion/blob/main/CHANGELOG.md" target="_blank" rel="noopener noreferrer">Changelog</a>
     </nav>
