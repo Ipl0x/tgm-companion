@@ -11,6 +11,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Automated `backup` branch synchronized after every `main` push and every 12 hours
 - One-time automated cleanup of obsolete development branches
 - Shared responsive footer with links to the source repository, issues, contribution guide, and changelog
+- Dashboard overview with completed levels and percentage progress for every investment category
 
 ## [0.2.0] - 2026-08-07
 
