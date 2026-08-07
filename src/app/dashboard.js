@@ -1,5 +1,6 @@
 import { buildingNames, buildingOrder } from '../buildings/catalog.js';
 import { loadInvestmentRowMap } from '../data/load.js';
+import { backupFilename, createBackup, restoreBackup, validateBackup } from '../shared/backup.js';
 import { readState } from '../shared/storage.js';
 
 const BUILDING_STATE_KEY = 'tgm-star-up-enhanced-v2';
@@ -184,6 +185,61 @@ function render() {
   renderContinueCard(buildings);
 }
 
+function setBackupStatus(message, error = false) {
+  const status = $('#backupStatus');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('error', error);
+}
+
+function downloadBackup() {
+  try {
+    const exportedAt = new Date();
+    const backup = createBackup(localStorage, exportedAt);
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = backupFilename(exportedAt);
+    document.body.append(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+    setBackupStatus('Complete backup downloaded.');
+  } catch (error) {
+    console.error('Unable to create complete backup.', error);
+    setBackupStatus('Unable to create the backup.', true);
+  }
+}
+
+async function restoreAllData(file) {
+  try {
+    const backup = validateBackup(JSON.parse(await file.text()));
+    const confirmed = confirm('Restore all TGM Companion progress and settings? This replaces the current saved data in this browser.');
+    if (!confirmed) {
+      setBackupStatus('Restore cancelled.');
+      return;
+    }
+
+    restoreBackup(backup, localStorage);
+    setBackupStatus('Backup restored. Reloading the dashboard…');
+    window.setTimeout(() => location.reload(), 350);
+  } catch (error) {
+    console.error('Unable to restore complete backup.', error);
+    setBackupStatus(error.message || 'Unable to restore this backup.', true);
+  }
+}
+
+function initializeBackupControls() {
+  $('#backupAllBtn')?.addEventListener('click', downloadBackup);
+  $('#restoreAllBtn')?.addEventListener('click', () => $('#restoreAllFile')?.click());
+  $('#restoreAllFile')?.addEventListener('change', event => {
+    const file = event.target.files?.[0];
+    if (file) void restoreAllData(file);
+    event.target.value = '';
+  });
+}
+
 function initializeTheme() {
   if (localStorage.getItem('tgm-theme') === 'light') document.documentElement.classList.add('light');
   $('#dashboardThemeBtn').addEventListener('click', () => {
@@ -225,6 +281,7 @@ async function loadInvestmentMetadata() {
 }
 
 initializeTheme();
+initializeBackupControls();
 await loadInvestmentMetadata();
 render();
 window.addEventListener('storage', render);
