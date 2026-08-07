@@ -15,8 +15,8 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Central dashboard backup and restore for all Star-Ups, Investments, presets, planner settings, and theme data
 - Freight Truck investment preview between Kingpins and Advanced Defenses, with all currently known investment names and under-construction details while resource data is incomplete
 - Verified Freight Truck level 1 data for Extra Run and Ultimate Protection, including Cash, Arms, Cargo, Metal, Diamonds, Oil, Crypto Coins, Family Currency, Family Insignia, Influence, and their known prerequisites; both investments have max level 1, while Gold and aggregate calculations remain marked as incomplete
-- Complete Freight Truck `Basic Resource` source data for levels 1–5, including original unbuffed time, all resource costs, approximate Gold, Influence, and max level 5; the Details panel can browse all five known levels while the rest of Freight Truck remains under construction
-- Freight Truck `Hijack Boost` source data for levels 1–5 of max level 10, including original unbuffed time, all resource costs, approximate Gold, Influence, and the confirmed `Basic Resource Lv. 1` prerequisite for level 1; levels 6–10 remain under construction
+- Complete Freight Truck `Basic Resource` source data for levels 1–5, including original unbuffed time, all resource costs, Gold, Influence, and max level 5; the Details panel can browse all five known levels while the rest of Freight Truck remains under construction
+- Complete Freight Truck `Hijack Boost` source data for levels 1–10, including original unbuffed time, all resource costs, Gold, Influence, `Basic Resource Lv. 1` for level 1, and `Basic Resource Lv. 5` for level 10
 - Dedicated Investment and Star-Up data submission issue forms with screenshot evidence and cross-verification guidance; Investment submissions explicitly require the original unbuffed game time rather than a player-adjusted investment time
 - Footer `Submit data` menu with direct choices for Investment data and Star-Up data submissions
 
@@ -26,6 +26,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Simplified community data submission forms into compact GitHub Issue Forms with grouped data entry and dedicated screenshot uploads
 - Replaced grouped Investment resource and Star-Up cost textareas with individually labeled fields so field names remain visible while contributors enter values; all example placeholders are explicitly quoted as YAML strings
 - Investment data submissions now collect investment prerequisites only and explicitly exclude building requirements
+- Freight Truck known Gold values are displayed without a `~` prefix
 
 ### Fixed
 
