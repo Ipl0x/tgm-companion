@@ -64,6 +64,66 @@ const EXPECTED_BASIC_RESOURCE_LEVELS = [
   }
 ];
 
+const EXPECTED_HIJACK_BOOST_LEVELS = [
+  {
+    level: 1,
+    originalTime: '1D 07:02:06',
+    timeSeconds: 111726,
+    resources: { cash: 1006831, arms: 331280, cargo: 350767, metal: 422220, diamonds: 649568, oil: 0, crypto_coins: 0, family_currency: 0, family_insignia: 0 },
+    goldApprox: 516,
+    influenceIncrease: 192,
+    prerequisites: [{ name: 'Basic Resource', level: 1 }]
+  },
+  {
+    level: 2,
+    originalTime: '1D 14:47:37',
+    timeSeconds: 139657,
+    resources: { cash: 1258539, arms: 414100, cargo: 438459, metal: 527775, diamonds: 811960, oil: 0, crypto_coins: 0, family_currency: 0, family_insignia: 0 },
+    goldApprox: 635,
+    influenceIncrease: 210,
+    prerequisites: []
+  },
+  {
+    level: 3,
+    originalTime: '2D 00:29:32',
+    timeSeconds: 174572,
+    resources: { cash: 1573171, arms: 517624, cargo: 548073, metal: 659717, diamonds: 1014949, oil: 0, crypto_coins: 0, family_currency: 0, family_insignia: 0 },
+    goldApprox: 746,
+    influenceIncrease: 442,
+    prerequisites: []
+  },
+  {
+    level: 4,
+    originalTime: '2D 12:36:55',
+    timeSeconds: 218215,
+    resources: { cash: 1966465, arms: 647031, cargo: 685091, metal: 824647, diamonds: 1268687, oil: 0, crypto_coins: 0, family_currency: 0, family_insignia: 0 },
+    goldApprox: 879,
+    influenceIncrease: 928,
+    prerequisites: []
+  },
+  {
+    level: 5,
+    originalTime: '3D 03:46:08',
+    timeSeconds: 272768,
+    resources: { cash: 2458080, arms: 808788, cargo: 856364, metal: 1030808, diamonds: 1585858, oil: 0, crypto_coins: 0, family_currency: 0, family_insignia: 0 },
+    goldApprox: 1051,
+    influenceIncrease: 1948,
+    prerequisites: []
+  }
+];
+
+function plainKnownLevels(investment) {
+  return investment.knownLevels.map(level => ({
+    level: level.level,
+    originalTime: level.originalTime,
+    timeSeconds: level.timeSeconds,
+    resources: { ...level.resources },
+    goldApprox: level.goldApprox,
+    influenceIncrease: level.influenceIncrease,
+    prerequisites: level.prerequisites.map(prerequisite => ({ ...prerequisite }))
+  }));
+}
+
 test('Freight Truck is ordered between Kingpins and Advanced Defenses', () => {
   assert.match(investmentController, /1, 2, 3, 5, FREIGHT_TRUCK_CATEGORY\.id, 7/);
   assert.equal(FREIGHT_TRUCK_CATEGORY.name, 'Freight Truck');
@@ -96,24 +156,28 @@ test('Freight Truck exposes the requested construction tree', () => {
 
 test('Basic Resource has complete source data for levels 1 through 5', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Basic Resource');
+  assert.equal(investment.maxLevel, 5);
   assert.equal(investment.dataComplete, true);
   assert.equal(investment.knownLevels.length, 5);
-  assert.equal(Math.max(...investment.knownLevels.map(level => level.level)), 5);
 
-  const actual = investment.knownLevels.map(level => ({
-    level: level.level,
-    originalTime: level.originalTime,
-    timeSeconds: level.timeSeconds,
-    resources: { ...level.resources },
-    goldApprox: level.goldApprox,
-    influenceIncrease: level.influenceIncrease
-  }));
+  const actual = plainKnownLevels(investment).map(({ prerequisites, ...level }) => level);
   assert.deepEqual(actual, EXPECTED_BASIC_RESOURCE_LEVELS);
   assert.ok(investment.knownLevels.every(level => level.prerequisites.length === 0));
 });
 
+test('Hijack Boost has source data for levels 1 through 5 of max level 10', () => {
+  const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Hijack Boost');
+  assert.equal(investment.maxLevel, 10);
+  assert.equal(investment.dataComplete, undefined);
+  assert.equal(investment.knownLevels.length, 5);
+  assert.deepEqual(plainKnownLevels(investment), EXPECTED_HIJACK_BOOST_LEVELS);
+  assert.deepEqual(investment.knownLevels[0].prerequisites, [{ name: 'Basic Resource', level: 1 }]);
+  assert.ok(investment.knownLevels.slice(1).every(level => level.prerequisites.length === 0));
+});
+
 test('Extra Run has exactly one level and uses the supplied data', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Extra Run');
+  assert.equal(investment.maxLevel, 1);
   assert.equal(investment.knownLevel.level, 1);
   assert.equal(investment.knownLevels, undefined);
   assert.deepEqual(investment.knownLevel.resources, EXPECTED_EXTRA_ULTIMATE_LEVEL_ONE_RESOURCES);
@@ -126,6 +190,7 @@ test('Extra Run has exactly one level and uses the supplied data', () => {
 
 test('Ultimate Protection has exactly one level and depends only on Extra Run level 1', () => {
   const investment = FREIGHT_TRUCK_CATEGORY.investments.find(item => item.name === 'Ultimate Protection');
+  assert.equal(investment.maxLevel, 1);
   assert.equal(investment.knownLevel.level, 1);
   assert.equal(investment.knownLevels, undefined);
   assert.deepEqual(investment.knownLevel.resources, EXPECTED_EXTRA_ULTIMATE_LEVEL_ONE_RESOURCES);
@@ -136,7 +201,7 @@ test('Ultimate Protection has exactly one level and depends only on Extra Run le
   assert.equal(investment.knownLevel.prerequisites.some(item => item.name === 'Investment Center'), false);
 });
 
-test('known Freight Truck data supports complete multi-level browsing without enabling incomplete totals', () => {
+test('known Freight Truck data supports complete and partial multi-level browsing without enabling incomplete totals', () => {
   assert.match(investmentController, /underConstruction/);
   assert.match(investmentController, /button\.hidden = construction/);
   assert.match(legacyControls, /dataset\.construction === 'true'/);
@@ -144,7 +209,9 @@ test('known Freight Truck data supports complete multi-level browsing without en
   assert.match(investmentsHtml, /src\/app\/freight-truck-known-data\.js/);
   assert.match(knownDataController, /function levelsFor\(investment\)/);
   assert.match(knownDataController, /data is complete for levels 1–/);
-  assert.match(knownDataController, /Levels 1–\$\{levels\.at\(-1\)\.level\} data complete/);
+  assert.match(knownDataController, /Known data currently covers levels/);
+  assert.match(knownDataController, /of max level \$\{maxLevel\}/);
+  assert.match(knownDataController, /of \$\{maxLevel\} data available/);
   assert.match(knownDataController, /setText\('inv_time_human', level\.originalTime \|\| 'Unknown'\)/);
   assert.match(knownDataController, /`~\$\{number\(level\.goldApprox\)\}`/);
   assert.match(knownDataController, /Not calculated/);
