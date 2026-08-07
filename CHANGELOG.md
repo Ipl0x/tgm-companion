@@ -23,10 +23,12 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Replaced visible internal building IDs on Star-Up cards with a user-facing current-stars label
 - Simplified community data submission forms into compact GitHub Issue Forms with grouped data entry and dedicated screenshot uploads
 - Replaced grouped Investment resource and Star-Up cost textareas with individually labeled fields so field names remain visible while contributors enter values; all example placeholders are explicitly quoted as YAML strings
+- Investment data submissions now collect investment prerequisites only and explicitly exclude building requirements
 
 ### Fixed
 
 - Investment and Star-Up data submission links opening GitHub's blank issue editor instead of rendering the intended structured forms
+- Removed the incorrect `Investment Center Lv. 10` prerequisite from Freight Truck `Ultimate Protection`; its known prerequisite is now only `Extra Run Lv. 1`
 
 ## [0.2.0] - 2026-08-07
 
