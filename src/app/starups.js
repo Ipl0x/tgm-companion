@@ -95,7 +95,7 @@ function renderBuildings() {
     const value = clamp(state.levels[id]);
     return `<article class="building" data-category="${categoryFor(building.name)}" data-name="${building.name.toLowerCase()}">
       <span class="building-icon">${buildingIcon(building.name)}</span>
-      <div class="building-copy"><div class="building-name">${building.name}</div><div class="building-cat">ID ${building.id} · current stars</div></div>
+      <div class="building-copy"><div class="building-name">${building.name}</div><div class="building-cat">Current stars</div></div>
       <div class="level-control"><button type="button" data-action="minus" data-id="${id}" aria-label="Decrease ${building.name}">−</button><input data-id="${id}" type="number" min="0" max="10" value="${value}" aria-label="${building.name} current stars"><button type="button" data-action="plus" data-id="${id}" aria-label="Increase ${building.name}">+</button></div>
     </article>`;
   }).join('');

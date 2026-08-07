@@ -13,6 +13,10 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Shared responsive footer with links to the source repository, issues, contribution guide, and changelog
 - Dashboard overview with completed levels and percentage progress for every investment category
 
+### Changed
+
+- Replaced visible internal building IDs on Star-Up cards with a user-facing current-stars label
+
 ## [0.2.0] - 2026-08-07
 
 ### Added
