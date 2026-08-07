@@ -22,6 +22,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 - Replaced visible internal building IDs on Star-Up cards with a user-facing current-stars label
 - Simplified community data submission forms into compact GitHub Issue Forms with grouped data entry and dedicated screenshot uploads
+- Replaced grouped Investment resource and Star-Up cost textareas with individually labeled fields so field names remain visible while contributors enter values; all example placeholders are explicitly quoted as YAML strings
 
 ### Fixed
 

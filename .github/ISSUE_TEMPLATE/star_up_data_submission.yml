@@ -16,27 +16,47 @@ body:
     id: building
     attributes:
       label: Building name
-      placeholder: Mansion
+      placeholder: "Mansion"
     validations:
       required: true
 
   - type: input
-    id: star_step
+    id: current_star
     attributes:
-      label: Star-Up level / step
-      description: Enter the completed level and the exact target or intermediate Star-Up step shown by the game.
-      placeholder: "Example: Star 8 -> Star 9, or the exact intermediate step"
+      label: Current completed star level
+      description: Enter the building's completed star level immediately before this upgrade step.
+      placeholder: "Example: 8"
     validations:
       required: true
 
-  - type: textarea
-    id: costs
+  - type: input
+    id: target_step
     attributes:
-      label: Star-Up costs
-      description: Enter the exact costs shown for this step. Use 0 only when confirmed by the game and Unknown when not yet verified.
-      placeholder: |
-        Family Currency: 
-        Family Insignia: 
+      label: Target Star-Up level / step
+      description: Enter the exact next Star-Up level or intermediate step shown by the game.
+      placeholder: "Example: Star 9 or the exact intermediate step"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ### Star-Up costs
+        Enter the exact values shown for this step. Use `0` only when confirmed by the game and `Unknown` when a value cannot yet be verified.
+
+  - type: input
+    id: family_currency
+    attributes:
+      label: Family Currency
+      placeholder: "Example: 1,234,567"
+    validations:
+      required: true
+
+  - type: input
+    id: family_insignia
+    attributes:
+      label: Family Insignia
+      placeholder: "Example: 12,345"
     validations:
       required: true
 
