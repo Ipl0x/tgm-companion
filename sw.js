@@ -56,7 +56,6 @@ self.addEventListener('activate', event => {
     await Promise.all(cacheNames
       .filter(name => name.startsWith(CACHE_PREFIX) && name !== APP_CACHE)
       .map(name => caches.delete(name)));
-    if ('navigationPreload' in self.registration) await navigator.storage?.persist?.().catch(() => {});
     if ('navigationPreload' in self.registration) await self.registration.navigationPreload.enable();
     await self.clients.claim();
   })());
