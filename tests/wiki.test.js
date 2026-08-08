@@ -50,5 +50,5 @@ test('Wiki page, styles, and controller are available offline', () => {
   assert.match(serviceWorker, /\.\/wiki\.html/);
   assert.match(serviceWorker, /\.\/css\/wiki\.css/);
   assert.match(serviceWorker, /\.\/src\/app\/wiki\.js/);
-  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-09-v16'/);
+  assert.match(serviceWorker, /CACHE_VERSION = '2026-08-07-v16'/);
 });
