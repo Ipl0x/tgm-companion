@@ -19,6 +19,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Complete Freight Truck `Hijack Boost` source data for levels 1–10, including original unbuffed time, all resource costs, Gold, Influence, `Basic Resource Lv. 1` for level 1, and `Basic Resource Lv. 5` for level 10
 - Dedicated Investment and Star-Up data submission issue forms with screenshot evidence and cross-verification guidance; Investment submissions explicitly require the original unbuffed game time rather than a player-adjusted investment time
 - Footer `Submit data` menu with direct choices for Investment data and Star-Up data submissions
+- In-app TGM Wiki with searchable `Getting Started` and `Tips & Tricks` sections covering planner basics, Original Time, prerequisites, data-quality states, backups, resource planning, and community verification guidance
 
 ### Changed
 
@@ -27,6 +28,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Replaced grouped Investment resource and Star-Up cost textareas with individually labeled fields so field names remain visible while contributors enter values; all example placeholders are explicitly quoted as YAML strings
 - Investment data submissions now collect investment prerequisites only and explicitly exclude building requirements
 - Freight Truck known Gold values are displayed without a `~` prefix
+- Added the Wiki to the primary navigation and shared footer, with responsive horizontal navigation on smaller screens and offline/PWA caching for the Wiki page, styles, and search controller
 
 ### Fixed
 
