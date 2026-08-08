@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="application-name" content="TGM Companion">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TGM Companion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>TGM Companion · Wiki</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/wiki.css">
+</head>
+<body class="wiki-page">
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TGM</span>
+      <span><strong>TGM Companion</strong><small>Community wiki</small></span>
+    </a>
+    <nav class="tool-nav" aria-label="TGM Companion pages">
+      <a class="tool-tab" href="index.html">Dashboard</a>
+      <a class="tool-tab" href="star-ups.html">Building Star-Ups</a>
+      <a class="tool-tab" href="investments.html">Investments</a>
+      <a class="tool-tab active" href="wiki.html">Wiki</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn btn-ghost install-app-btn" type="button" data-install-app hidden>Install app</button>
+      <button id="wikiThemeBtn" class="icon-btn" type="button" aria-label="Toggle theme">☾</button>
+    </div>
+  </header>
+
+  <main class="shell wiki-shell">
+    <section class="wiki-hero">
+      <div>
+        <span class="eyebrow">TGM COMPANION WIKI</span>
+        <h1>Learn the game.<br><em>Plan smarter.</em></h1>
+        <p>Guides, explanations, and practical community tips for Investments, Building Star-Ups, resources, progression, and TGM Companion itself.</p>
+      </div>
+      <aside class="wiki-hero-note panel">
+        <strong>Game data vs. strategy</strong>
+        <p>Costs, times, levels, and prerequisites are factual game data. Tips and strategies are player guidance and may not be the only correct way to progress.</p>
+      </aside>
+    </section>
+
+    <section class="wiki-search panel" aria-labelledby="wikiSearchHeading">
+      <div>
+        <span class="step">01</span>
+        <h2 id="wikiSearchHeading">Search the Wiki</h2>
+        <p>Search topics such as Original Time, prerequisites, Family Currency, backups, or resource planning.</p>
+      </div>
+      <label class="wiki-search-box" for="wikiSearch">
+        <span aria-hidden="true">⌕</span>
+        <input id="wikiSearch" type="search" placeholder="Search tips, mechanics, investments…" autocomplete="off">
+      </label>
+      <small id="wikiSearchStatus" class="wiki-search-status" role="status" aria-live="polite"></small>
+    </section>
+
+    <nav class="wiki-jump-nav" aria-label="Wiki sections">
+      <a href="#getting-started"><span>01</span>Getting Started</a>
+      <a href="#tips-tricks"><span>02</span>Tips &amp; Tricks</a>
+      <span class="wiki-coming"><span>03</span>Investments · coming next</span>
+      <span class="wiki-coming"><span>04</span>Star-Ups · coming next</span>
+      <span class="wiki-coming"><span>05</span>Resources · coming next</span>
+    </nav>
+
+    <div id="wikiNoResults" class="panel wiki-no-results" hidden>
+      <strong>No matching Wiki articles</strong>
+      <p>Try a broader search term.</p>
+    </div>
+
+    <section id="getting-started" class="wiki-section" data-wiki-section>
+      <div class="wiki-section-heading">
+        <div><span class="step">01</span><h2>Getting Started</h2></div>
+        <p>Understand what TGM Companion does, how its data is handled, and where to begin.</p>
+      </div>
+
+      <div class="wiki-article-grid">
+        <article class="panel wiki-article wiki-article-wide" data-wiki-article>
+          <span class="wiki-tag">Introduction</span>
+          <h3>Welcome to TGM Companion</h3>
+          <p>TGM Companion is a community-made tool designed to help players plan <strong>Investments</strong>, <strong>Building Star-Ups</strong>, resource requirements, upgrade times, and other progression-related decisions.</p>
+          <p>This Wiki explains how the different systems work, how to use the tools on this website, and contains tips gathered from player experience and verified game data.</p>
+          <div class="wiki-callout"><strong>Unofficial project</strong><span>TGM Companion is fan-made and is not affiliated with or endorsed by The Grand Mafia or its developers.</span></div>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Planner</span>
+          <h3>Investments</h3>
+          <p>The Investment Planner lets you browse investment categories and individual investments. For supported investments, it can show:</p>
+          <ul>
+            <li>Level and Original Time</li>
+            <li>Cash, Arms, Cargo, Metal, Diamonds, and Oil</li>
+            <li>Crypto Coins, Family Currency, and Family Insignia</li>
+            <li>Gold and Influence</li>
+            <li>Investment prerequisites</li>
+          </ul>
+          <p>You can also keep track of completed investment levels. Newer categories may remain <strong>Under Construction</strong> while data is collected and verified.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Planner</span>
+          <h3>Building Star-Ups</h3>
+          <p>The Star-Up Planner helps you record the Star-Up progress of your buildings and calculate what is still required to reach a selected target.</p>
+          <p>Your current building progress and target are stored locally in your browser so you can continue planning later.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Time</span>
+          <h3>Original Time</h3>
+          <p><strong>Original Time</strong> is the base investment time shown by the game before your personal bonuses are applied.</p>
+          <div class="wiki-example"><small>Example</small><code>3D 03:46:08</code></div>
+          <p>When submitting investment data, always provide the original game time rather than a reduced time from your own account.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Time</span>
+          <h3>Time with buffs</h3>
+          <p>Your actual investment time may be lower because of bonuses such as Investment Speed, VIP bonuses, Family Help, or other active bonuses.</p>
+          <p>TGM Companion keeps the Original Time separate from player-adjusted calculations so the underlying source data stays consistent for everyone.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Requirements</span>
+          <h3>Prerequisites</h3>
+          <p>Some investments require another investment to reach a certain level first.</p>
+          <div class="wiki-chain"><strong>Hijack Boost Lv. 1</strong><span>requires</span><strong>Basic Resource Lv. 1</strong></div>
+          <p>TGM Companion only lists prerequisites that have been confirmed. Missing requirements are not guessed.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Data quality</span>
+          <h3>Complete, partial, and unknown data</h3>
+          <dl class="wiki-status-list">
+            <div><dt>Data complete</dt><dd>All levels and required data currently expected for that investment have been collected.</dd></div>
+            <div><dt>Partial data</dt><dd>Some levels or values are known, but more information is still missing.</dd></div>
+            <div><dt>Under construction</dt><dd>There is not enough verified information to treat the investment or category as complete.</dd></div>
+          </dl>
+          <p>Unknown values are deliberately shown as <strong>Unknown</strong> instead of being estimated.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Privacy</span>
+          <h3>Saving your progress</h3>
+          <p>TGM Companion stores planner progress locally in your browser. This includes Investment progress, Building Star-Up progress, presets, planner settings, and theme settings.</p>
+          <p>Your planner progress is not automatically uploaded to a server. Clearing browser data can remove locally saved progress.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Backup</span>
+          <h3>Back up your data</h3>
+          <p>The Dashboard includes <strong>Backup all</strong> and <strong>Restore all</strong>. A backup is recommended before:</p>
+          <ul>
+            <li>Clearing browser data</li>
+            <li>Switching browser, computer, or phone</li>
+            <li>Reinstalling the PWA</li>
+            <li>Making major changes to your saved planner progress</li>
+          </ul>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Community</span>
+          <h3>Community data</h3>
+          <p>Players can submit missing Investment or Star-Up information through <strong>Submit data</strong> in the footer.</p>
+          <p>Submissions are reviewed before being added to the main dataset. Screenshots and independent submissions help compare and verify values.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Wiki</span>
+          <h3>Game data vs. tips</h3>
+          <p><strong>Game data</strong> includes factual values such as resource costs, upgrade times, levels, prerequisites, and Influence.</p>
+          <p><strong>Tips and strategies</strong> are recommendations based on player experience. They can help with decisions, but a strategy that works for one account may not be ideal for another.</p>
+        </article>
+
+        <article class="panel wiki-article wiki-article-wide" data-wiki-article>
+          <span class="wiki-tag">Checklist</span>
+          <h3>Where should I start?</h3>
+          <ol class="wiki-steps">
+            <li><span>1</span><div><strong>Enter your Building Star-Up progress.</strong><small>Set your current completed stars and choose a target.</small></div></li>
+            <li><span>2</span><div><strong>Enter your Investment progress.</strong><small>Record the levels you have already completed.</small></div></li>
+            <li><span>3</span><div><strong>Create a Backup all file.</strong><small>Protect the progress stored in your browser.</small></div></li>
+            <li><span>4</span><div><strong>Check prerequisites before spending.</strong><small>Look ahead before committing large amounts of resources.</small></div></li>
+            <li><span>5</span><div><strong>Use the planners and Wiki together.</strong><small>The planners show the numbers; the Wiki explains how to interpret and use them.</small></div></li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section id="tips-tricks" class="wiki-section" data-wiki-section>
+      <div class="wiki-section-heading">
+        <div><span class="step">02</span><h2>Tips &amp; Tricks</h2></div>
+        <p>Practical player guidance for using resources and time more efficiently.</p>
+      </div>
+
+      <div class="wiki-advice-note panel">
+        <strong>Strategy, not a rulebook</strong>
+        <p>The advice below is meant as guidance. There is not always one correct way to progress, and the best choice can depend on your account, Family, events, and playstyle.</p>
+      </div>
+
+      <div class="wiki-article-grid">
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Planning</span>
+          <h3>Plan before spending</h3>
+          <p>Before starting an expensive Investment or Building Star-Up, check what comes after it. One upgrade may be affordable while the next prerequisite requires significantly more resources.</p>
+          <p>Looking several steps ahead can prevent getting stuck halfway through a progression path.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Resources</span>
+          <h3>Don't look at one resource only</h3>
+          <p>An upgrade may look affordable because you have enough Cash, while Arms, Cargo, Metal, Diamonds, or another resource is actually the bottleneck.</p>
+          <p>Compare all required resources and identify which one is lowest relative to your upcoming requirements.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Requirements</span>
+          <h3>Check prerequisites first</h3>
+          <p>Before saving for a high-level investment, confirm whether another investment must be completed first.</p>
+          <p>Knowing the dependency path in advance prevents saving everything for an investment you cannot unlock yet.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Time</span>
+          <h3>Keep Original Time separate</h3>
+          <p>Original Time is the unmodified game value. Your personal time can differ because of Investment Speed, VIP, Family Help, and other bonuses.</p>
+          <p>Use Original Time when comparing or submitting source data so different accounts can be compared consistently.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Time</span>
+          <h3>Use longer investments around offline time</h3>
+          <p>Longer investments are often convenient before sleeping, work, school, or another period away from the game. Shorter upgrades are easier to handle while you are active and able to start the next one quickly.</p>
+          <p>The aim is to reduce unnecessary idle time between completed upgrades.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Resources</span>
+          <h3>Don't spend everything at once</h3>
+          <p>Completing one large upgrade while reducing every resource to nearly zero can make the next step much harder.</p>
+          <p>Look at the following requirements and consider keeping a reserve, especially for resources that are difficult for your account to replace quickly.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Star-Ups</span>
+          <h3>Be careful with rare currencies</h3>
+          <p>Family Currency and Family Insignia can become important progression bottlenecks. Check upcoming Building Star-Up requirements before committing large amounts elsewhere.</p>
+          <p>The Star-Up Planner can help you see what your selected target still requires.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Planning</span>
+          <h3>Include prerequisites in the real cost</h3>
+          <p>If your target requires another investment first, include that prerequisite in the full cost of reaching your target rather than treating it as a separate surprise.</p>
+          <div class="wiki-chain"><strong>Target Investment</strong><span>→</span><strong>Required Investment</strong><span>→</span><strong>Required level</strong></div>
+        </article>
+
+        <article class="panel wiki-article wiki-highlight" data-wiki-article>
+          <span class="wiki-tag">Data quality</span>
+          <h3>0 and Unknown are not the same</h3>
+          <div class="wiki-compare">
+            <div><strong>0</strong><span>The resource has been confirmed as not required for that level.</span></div>
+            <div><strong>Unknown</strong><span>The value has not been sufficiently verified yet.</span></div>
+          </div>
+          <p>Never treat an unknown value as zero when planning resources.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Investments</span>
+          <h3>Look beyond the next level</h3>
+          <p>For investments with several known levels, browse higher levels before committing. This shows how quickly resource costs and Original Time increase.</p>
+          <p>It can help decide whether to push the same investment further or use resources elsewhere first.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Planner</span>
+          <h3>Keep your progress updated</h3>
+          <p>The planners become more useful when saved progress matches your actual account.</p>
+          <p>After completing several Investments or Star-Ups, update TGM Companion so later planning does not include work you have already finished.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Backup</span>
+          <h3>Make backups regularly</h3>
+          <p>Create a <strong>Backup all</strong> file after substantial progress and before clearing browser data, switching devices or browsers, or reinstalling the PWA.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Community</span>
+          <h3>Verify community data</h3>
+          <p>One community submission should not automatically be treated as correct. Where possible, compare values against screenshots or independent submissions from multiple players.</p>
+          <p>This is especially useful for resource amounts, Original Time, Gold, Influence, prerequisites, and maximum levels.</p>
+        </article>
+
+        <article class="panel wiki-article" data-wiki-article>
+          <span class="wiki-tag">Community</span>
+          <h3>Submit corrections instead of working around errors</h3>
+          <p>If TGM Companion does not match the game, submit the correct information rather than adjusting around the error only for yourself.</p>
+          <p>A useful submission includes the exact Investment or Building, its level, the values shown by the game, and preferably screenshot evidence.</p>
+        </article>
+
+        <article class="panel wiki-article wiki-article-wide" data-wiki-article>
+          <span class="wiki-tag">Quick habits</span>
+          <h3>A simple progression checklist</h3>
+          <div class="wiki-habits">
+            <div><strong>Before spending</strong><span>Check the next prerequisite.</span></div>
+            <div><strong>Before starting a timer</strong><span>Check the Original Time and your offline window.</span></div>
+            <div><strong>Before using rare resources</strong><span>Check your next Star-Up target.</span></div>
+            <div><strong>After progressing</strong><span>Update your planner.</span></div>
+            <div><strong>After major progress</strong><span>Create a backup.</span></div>
+            <div><strong>When something looks wrong</strong><span>Submit evidence so the source data can be corrected.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>Unofficial community planner for The Grand Mafia</span><span>Wiki content is maintained by the community</span></footer>
+  <script type="module" src="src/app/wiki.js"></script>
+</body>
+</html>
