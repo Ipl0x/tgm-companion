@@ -6,9 +6,10 @@ const footerController = await readFile('src/app/pwa.js', 'utf8');
 const footerStyles = await readFile('css/footer.css', 'utf8');
 const serviceWorker = await readFile('sw.js', 'utf8');
 
-test('shared project footer exposes repository, contribution, and data submission links', async () => {
+test('shared project footer exposes Wiki, repository, contribution, and data submission links', async () => {
   await access('css/footer.css');
   assert.match(footerController, /className = 'site-footer'/);
+  assert.match(footerController, /<a href="wiki\.html">Wiki<\/a>/);
   assert.match(footerController, /github\.com\/Ipl0x\/tgm-companion/);
   assert.match(footerController, /github\.com\/Ipl0x\/tgm-companion\/issues/);
   assert.match(footerController, /issues\/new\?template=feature_request\.yml/);

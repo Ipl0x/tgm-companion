@@ -34,6 +34,7 @@ function ensureProjectFooter() {
       <span>Open-source community planner for The Grand Mafia.</span>
     </div>
     <nav class="footer-links" aria-label="Project links">
+      <a href="wiki.html">Wiki</a>
       <a href="https://github.com/Ipl0x/tgm-companion" target="_blank" rel="noopener noreferrer">View source</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues" target="_blank" rel="noopener noreferrer">Report issue</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request feature</a>
