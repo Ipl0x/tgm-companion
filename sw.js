@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'tgm-companion';
-const CACHE_VERSION = '2026-08-07-v16';
+const CACHE_VERSION = '2026-08-07-v17';
 const APP_CACHE = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 const APP_SHELL = [

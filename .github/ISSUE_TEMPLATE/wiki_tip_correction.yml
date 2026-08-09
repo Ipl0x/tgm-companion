@@ -1,0 +1,85 @@
+name: Submit Wiki tip / correction
+description: Suggest a new Wiki tip or correct existing TGM Companion Wiki content
+title: "[Wiki]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the TGM Companion Wiki.
+
+        Use this form for **new tips**, **strategy suggestions**, or **corrections to existing Wiki content**. Tips are reviewed before publication, and factual corrections should include evidence whenever possible.
+
+  - type: dropdown
+    id: submission_type
+    attributes:
+      label: Submission type
+      description: Choose whether you are proposing a new tip or correcting existing Wiki content.
+      options:
+        - New tip / strategy
+        - Correction to existing Wiki content
+    validations:
+      required: true
+
+  - type: dropdown
+    id: wiki_section
+    attributes:
+      label: Wiki section
+      description: Choose the section this submission belongs to.
+      options:
+        - Getting Started
+        - Tips & Tricks
+        - Investments
+        - Star-Ups
+        - Resources
+        - Other / future section
+    validations:
+      required: true
+
+  - type: input
+    id: topic
+    attributes:
+      label: Topic / article
+      description: Give the tip or correction a short, specific topic name.
+      placeholder: "Example: Saving Family Currency before a Star-Up"
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_content
+    attributes:
+      label: Current Wiki content
+      description: For a correction, paste or describe the existing text that should be changed. Leave this empty for a completely new tip.
+      placeholder: "Paste the current sentence or describe where the incorrect information appears."
+
+  - type: textarea
+    id: proposed_content
+    attributes:
+      label: Proposed tip / correction
+      description: Write the information you think should be added or changed. Be as specific as possible.
+      placeholder: "Describe the new tip or corrected information here."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Why this should be added or changed
+      description: Explain why this information is useful or why the existing Wiki content is incorrect.
+      placeholder: "Explain the reasoning, game context, or situation where this applies."
+    validations:
+      required: true
+
+  - type: upload
+    id: evidence
+    attributes:
+      label: Screenshots / evidence
+      description: For factual corrections, upload screenshots or other evidence when available. Strategy tips may be submitted without screenshots.
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Submission confirmation
+      options:
+        - label: I understand that Wiki tips are player guidance unless verified as factual game data, and that submissions are reviewed before being published.
+          required: true
