@@ -68,7 +68,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 - Initial static rewrite
 - Building calculation engine and compressed building dataset
-- Investment calculation engine and compressed records
+- Investment calculation engine, compressed records, and row-ID mapping
 - Dashboard, Building Star-Up Planner, and Investment Planner foundations
 - Local browser persistence
 - Node reference tests
