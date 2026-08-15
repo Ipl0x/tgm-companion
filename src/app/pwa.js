@@ -23,6 +23,17 @@ function ensureProjectFooterStyles() {
   document.head.append(link);
 }
 
+function ensureCommunityNavigation() {
+  const navigation = document.querySelector('.tool-nav');
+  if (!navigation || navigation.querySelector('a[href="community-data.html"]')) return;
+
+  const link = document.createElement('a');
+  link.className = 'tool-tab';
+  link.href = 'community-data.html';
+  link.textContent = 'Community Data';
+  navigation.append(link);
+}
+
 function ensureProjectFooter() {
   const footer = document.querySelector('body > footer');
   if (!footer) return;
@@ -35,6 +46,7 @@ function ensureProjectFooter() {
     </div>
     <nav class="footer-links" aria-label="Project links">
       <a href="wiki.html">Wiki</a>
+      <a href="community-data.html">Community Data</a>
       <a href="https://github.com/Ipl0x/tgm-companion" target="_blank" rel="noopener noreferrer">View source</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues" target="_blank" rel="noopener noreferrer">Report issue</a>
       <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=feature_request.yml" target="_blank" rel="noopener noreferrer">Request feature</a>
@@ -72,6 +84,7 @@ function ensureInstallButton() {
 
 ensurePwaHeadLinks();
 ensureProjectFooterStyles();
+ensureCommunityNavigation();
 ensureProjectFooter();
 ensureInstallButton();
 

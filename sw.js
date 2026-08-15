@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'tgm-companion';
-const CACHE_VERSION = '2026-08-07-v17';
+const CACHE_VERSION = '2026-08-07-v18';
 const APP_CACHE = `${CACHE_PREFIX}-${CACHE_VERSION}`;
 
 const APP_SHELL = [
@@ -8,6 +8,7 @@ const APP_SHELL = [
   './star-ups.html',
   './investments.html',
   './wiki.html',
+  './community-data.html',
   './manifest.webmanifest',
   './assets/icons/tgm-icon-192.svg',
   './assets/icons/tgm-icon-512.svg',
@@ -19,6 +20,7 @@ const APP_SHELL = [
   './css/investments.css',
   './css/investments-legacy-tree.css',
   './css/wiki.css',
+  './css/community-data.css',
   './src/app/pwa.js',
   './src/app/dashboard.js',
   './src/app/starups.js',
@@ -26,6 +28,7 @@ const APP_SHELL = [
   './src/app/investments-legacy-controls.js',
   './src/app/freight-truck-known-data.js',
   './src/app/wiki.js',
+  './src/app/community-data.js',
   './src/buildings/catalog.js',
   './src/buildings/engine.js',
   './src/investments/construction.js',
@@ -34,6 +37,7 @@ const APP_SHELL = [
   './src/shared/backup.js',
   './src/shared/storage.js',
   './src/shared/format.js',
+  './assets/community/submissions.json',
   './assets/data/building-records.js.gz.b64',
   './assets/data/investment-records.js.gz.b64',
   './assets/data/investment-row-map.js.gz.b64'
