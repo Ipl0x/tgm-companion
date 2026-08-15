@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="application-name" content="TGM Companion">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TGM Companion">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>TGM Companion · Community Data</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/community-data.css">
+</head>
+<body class="community-data-page">
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">TGM</span>
+      <span><strong>TGM Companion</strong><small>Community data review</small></span>
+    </a>
+    <nav class="tool-nav" aria-label="TGM Companion pages">
+      <a class="tool-tab" href="index.html">Dashboard</a>
+      <a class="tool-tab" href="star-ups.html">Building Star-Ups</a>
+      <a class="tool-tab" href="investments.html">Investments</a>
+      <a class="tool-tab" href="wiki.html">Wiki</a>
+      <a class="tool-tab active" href="community-data.html">Community Data</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn btn-ghost install-app-btn" type="button" data-install-app hidden>Install app</button>
+      <button id="communityThemeBtn" class="icon-btn" type="button" aria-label="Toggle theme">☾</button>
+    </div>
+  </header>
+
+  <main class="shell community-shell">
+    <section class="community-hero">
+      <div>
+        <span class="eyebrow">COMMUNITY VERIFICATION</span>
+        <h1>See what players<br><em>have submitted.</em></h1>
+        <p>Community submissions remain separate from the maintained TGM Companion datasets until they have been reviewed. This page shows the review trail without treating unverified reports as official game data.</p>
+      </div>
+      <aside class="panel community-hero-note">
+        <span class="community-live-dot" aria-hidden="true"></span>
+        <div>
+          <strong>Review first, publish second</strong>
+          <p>Matching reports can become verification candidates, but data is never automatically copied into the official Investment or Star-Up datasets.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="community-kpis" aria-label="Community data status overview">
+      <article class="panel"><small>Needs review</small><strong id="needsReviewCount">0</strong><span>new or unchecked reports</span></article>
+      <article class="panel"><small>Cross-checking</small><strong id="crossCheckingCount">0</strong><span>reports being compared</span></article>
+      <article class="panel"><small>Verified</small><strong id="verifiedCount">0</strong><span>reviewed community records</span></article>
+      <article class="panel"><small>Total submissions</small><strong id="totalSubmissionCount">0</strong><span>published in this review feed</span></article>
+    </section>
+
+    <section class="panel community-workspace" aria-labelledby="communityReviewHeading">
+      <div class="community-workspace-head">
+        <div>
+          <span class="step">01</span>
+          <h2 id="communityReviewHeading">Submission review</h2>
+          <p>Search and filter submissions generated from GitHub Issues.</p>
+        </div>
+        <div class="community-feed-state">
+          <small>Feed status</small>
+          <strong id="communityFeedStatus">Loading…</strong>
+          <span id="communityGeneratedAt"></span>
+        </div>
+      </div>
+
+      <div class="community-filters">
+        <label class="community-search" for="communitySearch">
+          <span aria-hidden="true">⌕</span>
+          <input id="communitySearch" type="search" placeholder="Search category, investment, level, issue…" autocomplete="off">
+        </label>
+        <label>
+          <span>Type</span>
+          <select id="communityTypeFilter">
+            <option value="all">All types</option>
+            <option value="investment">Investment</option>
+            <option value="star-up">Star-Up</option>
+            <option value="wiki">Wiki</option>
+          </select>
+        </label>
+        <label>
+          <span>Status</span>
+          <select id="communityStatusFilter">
+            <option value="all">All statuses</option>
+            <option value="needs-review">Needs review</option>
+            <option value="cross-checking">Cross-checking</option>
+            <option value="verified">Verified</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="community-results-meta">
+        <span id="communityResultCount" role="status" aria-live="polite">0 submissions</span>
+        <a href="https://github.com/Ipl0x/tgm-companion/issues" target="_blank" rel="noopener noreferrer">Open GitHub Issues →</a>
+      </div>
+
+      <div id="communitySubmissionList" class="community-submission-list" aria-live="polite"></div>
+
+      <div id="communityEmptyState" class="community-empty" hidden>
+        <span>◇</span>
+        <strong>No community submissions published yet</strong>
+        <p>The page is ready for the GitHub Issues feed. Once the issue-sync workflow publishes reviewed submission metadata, records will appear here automatically.</p>
+      </div>
+
+      <div id="communityNoMatches" class="community-empty" hidden>
+        <span>⌕</span>
+        <strong>No submissions match these filters</strong>
+        <p>Try a broader search or switch the type/status filter.</p>
+      </div>
+    </section>
+
+    <section class="community-lower">
+      <article class="panel community-process">
+        <div class="section-heading"><div><span class="step">02</span><h2>Verification flow</h2></div></div>
+        <ol>
+          <li><span>1</span><div><strong>Submitted</strong><small>A player sends data through a structured GitHub Issue Form.</small></div></li>
+          <li><span>2</span><div><strong>Needs review</strong><small>The report is source material only and is not trusted automatically.</small></div></li>
+          <li><span>3</span><div><strong>Cross-checking</strong><small>Values can be compared against screenshots and independent reports.</small></div></li>
+          <li><span>4</span><div><strong>Verified candidate</strong><small>Matching evidence can make the record ready for maintainer approval.</small></div></li>
+          <li><span>5</span><div><strong>Maintainer approval</strong><small>Only an approved change may move data into the maintained app dataset.</small></div></li>
+        </ol>
+      </article>
+
+      <article class="panel community-submit">
+        <div class="section-heading"><div><span class="step">03</span><h2>Submit missing information</h2></div></div>
+        <p>Use the matching structured form so submissions can be grouped and reviewed consistently.</p>
+        <div class="community-submit-actions">
+          <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=investment_data_submission.yml" target="_blank" rel="noopener noreferrer"><span>⌁</span><div><strong>Investment data</strong><small>Levels, resources, Original Time and prerequisites</small></div><b>→</b></a>
+          <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=star_up_data_submission.yml" target="_blank" rel="noopener noreferrer"><span>★</span><div><strong>Star-Up data</strong><small>Building levels and Star-Up costs</small></div><b>→</b></a>
+          <a href="https://github.com/Ipl0x/tgm-companion/issues/new?template=wiki_tip_correction.yml" target="_blank" rel="noopener noreferrer"><span>✦</span><div><strong>Wiki tip / correction</strong><small>Strategy guidance or factual Wiki corrections</small></div><b>→</b></a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer><span>Unofficial community planner for The Grand Mafia</span><span>Community reports are reviewed before official use</span></footer>
+  <script type="module" src="src/app/community-data.js"></script>
+</body>
+</html>
