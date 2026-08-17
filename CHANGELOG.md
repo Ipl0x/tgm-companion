@@ -22,6 +22,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Footer `Submit data` menu with direct choices for Investment data, Star-Up data, and Wiki tip / correction submissions
 - In-app TGM Wiki with searchable `Getting Started` and `Tips & Tricks` sections covering planner basics, Original Time, prerequisites, data-quality states, backups, resource planning, and community verification guidance
 - Community Data review page with Needs review, Cross-checking, Verified, and total counters; search/type/status filters; source-issue links; verification guidance; submission shortcuts; and a static JSON feed ready for GitHub Issue synchronization
+- Automatic GitHub Issue-to-Community Data synchronization that parses structured Investment, Star-Up, and Wiki submissions and publishes a generated snapshot to the separate `community-feed` branch
 
 ### Changed
 
@@ -32,11 +33,13 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Freight Truck known Gold values are displayed without a `~` prefix
 - Added the Wiki to the primary navigation and shared footer, with responsive horizontal navigation on smaller screens and offline/PWA caching for the Wiki page, styles, and search controller
 - Added Community Data to the shared navigation/footer and PWA app shell; community records remain separate from maintained game datasets until maintainer approval
+- Community Data now loads the live generated `community-feed` snapshot first and falls back to the cached local snapshot when the live feed cannot be reached
 
 ### Fixed
 
 - Investment and Star-Up data submission links opening GitHub's blank issue editor instead of rendering the intended structured forms
 - Removed the incorrect `Investment Center Lv. 10` prerequisite from Freight Truck `Ultimate Protection`; its known prerequisite is now only `Extra Run Lv. 1`
+- New Submit Data GitHub issues not appearing on the Community Data page because no issue-sync workflow existed yet
 
 ## [0.2.0] - 2026-08-07
 
