@@ -1,7 +1,8 @@
 import './pwa.js';
 
 const THEME_KEY = 'tgm-theme';
-const FEED_URL = 'assets/community/submissions.json';
+const REMOTE_FEED_URL = 'https://raw.githubusercontent.com/Ipl0x/tgm-companion/community-feed/assets/community/submissions.json';
+const LOCAL_FEED_URL = 'assets/community/submissions.json';
 const REPOSITORY_ISSUE_URL = /^https:\/\/github\.com\/Ipl0x\/tgm-companion\/issues\/\d+$/i;
 const STATUS_LABELS = Object.freeze({
   'needs-review': 'Needs review',
@@ -204,23 +205,44 @@ function initializeTheme() {
   });
 }
 
+async function fetchFeed(url, cache) {
+  const response = await fetch(url, { cache });
+  if (!response.ok) throw new Error(`Community feed returned ${response.status}`);
+  return response.json();
+}
+
 async function loadFeed() {
+  let payload;
+  let source = 'remote';
+
   try {
-    const response = await fetch(FEED_URL, { cache: 'no-cache' });
-    if (!response.ok) throw new Error(`Community feed returned ${response.status}`);
-    const payload = await response.json();
-    submissions = Array.isArray(payload.submissions) ? payload.submissions.filter(item => item && typeof item === 'object') : [];
-    feedAvailable = true;
-    elements.feedStatus.textContent = submissions.length ? 'Connected' : 'Ready · waiting for issue sync';
-    const generated = formatDate(payload.generatedAt);
-    elements.generatedAt.textContent = generated ? `Last generated ${generated}` : 'No generated issue snapshot yet';
-  } catch (error) {
-    console.error('Unable to load community submission feed.', error);
-    submissions = [];
-    feedAvailable = false;
-    elements.feedStatus.textContent = 'Feed unavailable';
-    elements.generatedAt.textContent = 'The review page is still available.';
+    payload = await fetchFeed(`${REMOTE_FEED_URL}?v=${Date.now()}`, 'no-store');
+  } catch (remoteError) {
+    console.warn('Live community feed unavailable; using the local snapshot.', remoteError);
+    source = 'local';
+    try {
+      payload = await fetchFeed(LOCAL_FEED_URL, 'no-cache');
+    } catch (localError) {
+      console.error('Unable to load community submission feed.', localError);
+      submissions = [];
+      feedAvailable = false;
+      elements.feedStatus.textContent = 'Feed unavailable';
+      elements.generatedAt.textContent = 'The review page is still available.';
+      updateCounts();
+      render();
+      return;
+    }
   }
+
+  submissions = Array.isArray(payload.submissions) ? payload.submissions.filter(item => item && typeof item === 'object') : [];
+  feedAvailable = true;
+  if (source === 'remote') {
+    elements.feedStatus.textContent = submissions.length ? 'Connected to GitHub Issues' : 'Connected · no submissions';
+  } else {
+    elements.feedStatus.textContent = 'Offline/local snapshot';
+  }
+  const generated = formatDate(payload.generatedAt);
+  elements.generatedAt.textContent = generated ? `Last generated ${generated}` : 'No generated issue snapshot yet';
 
   updateCounts();
   render();
