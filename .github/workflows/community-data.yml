@@ -1,0 +1,66 @@
+name: Community data feed
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/community-data.yml'
+      - 'scripts/build-community-feed.mjs'
+      - 'src/app/community-data.js'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency:
+  group: community-data-feed
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out maintained app source
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: app
+          fetch-depth: 1
+
+      - name: Prepare community feed branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" feed
+          cd feed
+          if git ls-remote --exit-code --heads origin community-feed >/dev/null 2>&1; then
+            git checkout community-feed
+          else
+            git checkout --orphan community-feed
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+
+      - name: Build issue snapshot
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node app/scripts/build-community-feed.mjs feed/assets/community/submissions.json
+
+      - name: Publish feed
+        working-directory: feed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add assets/community/submissions.json
+          if git diff --cached --quiet; then
+            echo 'Community feed is already up to date.'
+            exit 0
+          fi
+          git commit -m 'chore: sync community data feed'
+          git push origin HEAD:community-feed
