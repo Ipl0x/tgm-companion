@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-17T18:43:28.581Z",
+  "submissions": [
+    {
+      "issue": 18,
+      "url": "https://github.com/Ipl0x/tgm-companion/issues/18",
+      "type": "investment",
+      "status": "needs-review",
+      "updatedAt": "2026-08-16T19:00:33Z",
+      "reports": 1,
+      "title": "Test · Test · Lv. 1",
+      "category": "Test",
+      "investment": "Test",
+      "item": "Test",
+      "level": 1,
+      "summary": "Community-submitted Investment source data. Review the GitHub issue and evidence before official use.",
+      "values": {
+        "originalTime": "1 day",
+        "cash": "1",
+        "arms": "1",
+        "cargo": "1",
+        "metal": "1",
+        "diamonds": "1",
+        "oil": "1",
+        "cryptoCoins": "1",
+        "familyCurrency": "1",
+        "familyInsignia": "1",
+        "gold": "1",
+        "influence": "1",
+        "prerequisites": "1",
+        "evidence": "[17869068019334655936544612582633.jpg](https://github.com/user-attachments/assets/00979885-7778-482c-b612-5cfd1cb1129a)"
+      }
+    }
+  ]
+}
