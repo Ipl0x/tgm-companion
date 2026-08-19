@@ -89,7 +89,8 @@ jobs:
               target = canonical.get(eventLabel);
             } else {
               const priority = ['status:published', 'status:approved', 'status:verified-candidate', 'status:verified', 'status:cross-checking', 'status:rejected', 'status:needs-review'];
-              const found = priority.find(name => currentLabels.map(label => label.toLowerCase()).includes(name));
+              const lowerLabels = currentLabels.map(label => label.toLowerCase());
+              const found = priority.find(name => lowerLabels.includes(name));
               if (found) target = canonical.get(found);
             }
 
@@ -155,11 +156,12 @@ jobs:
           git add "$record"
           if ! git diff --cached --quiet; then
             git commit -m "data: prepare approved community submission #${ISSUE_NUMBER}"
-            git push origin "$branch"
           else
             echo 'Approved publication record is already current.'
           fi
 
+          # Also push a merge-from-main commit when the publication record itself did not change.
+          git push origin "$branch"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
       - name: Open or update controlled publication pull request
