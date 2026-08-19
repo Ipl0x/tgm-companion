@@ -23,6 +23,8 @@ The project follows [Semantic Versioning](https://semver.org/).
 - In-app TGM Wiki with searchable `Getting Started` and `Tips & Tricks` sections covering planner basics, Original Time, prerequisites, data-quality states, backups, resource planning, and community verification guidance
 - Community Data review page with Needs review, Cross-checking, Verified, and total counters; search/type/status filters; source-issue links; verification guidance; submission shortcuts; and a static JSON feed ready for GitHub Issue synchronization
 - Automatic GitHub Issue-to-Community Data synchronization that parses structured Investment, Star-Up, and Wiki submissions and publishes a generated snapshot to the separate `community-feed` branch
+- Full community review lifecycle with `Needs review`, `Cross-checking`, `Verified candidate`, `Maintainer approved`, `Published`, and `Rejected` labels; new supported submissions automatically start at `Needs review`
+- Controlled publication workflow that turns maintainer-approved submissions into a dedicated `community/issue-<number>-approved` branch and pull request, stores the normalized approved source record under `data/community/approved/`, explicitly dispatches CI for the generated branch, and marks the source issue `Published` only after the publication PR is merged
 
 ### Changed
 
@@ -34,6 +36,8 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Added the Wiki to the primary navigation and shared footer, with responsive horizontal navigation on smaller screens and offline/PWA caching for the Wiki page, styles, and search controller
 - Added Community Data to the shared navigation/footer and PWA app shell; community records remain separate from maintained game datasets until maintainer approval
 - Community Data now loads the live generated `community-feed` snapshot first and falls back to the cached local snapshot when the live feed cannot be reached
+- Expanded Community Data from the original four review states to the complete Submitted → Needs review → Cross-checking → Verified candidate → Maintainer approved → Published flow, while retaining Rejected as a terminal review state
+- CI can now be dispatched explicitly on generated publication branches because pull requests created with the repository `GITHUB_TOKEN` do not reliably trigger the normal pull-request workflow
 
 ### Fixed
 
@@ -73,7 +77,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 
 - Initial static rewrite
 - Building calculation engine and compressed building dataset
-- Investment calculation engine, compressed records, and row-ID mapping
+- Investment calculation engine and compressed records
 - Dashboard, Building Star-Up Planner, and Investment Planner foundations
 - Local browser persistence
 - Node reference tests
