@@ -1,0 +1,240 @@
+name: Community review pipeline
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/community-review.yml'
+  issues:
+    types: [opened, edited, reopened, labeled, unlabeled]
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  setup-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure review status labels exist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const labels = [
+              ['status:needs-review', 'd4c5f9', 'New community submission awaiting review'],
+              ['status:cross-checking', '58a6ff', 'Submission is being compared with evidence or independent reports'],
+              ['status:verified-candidate', 'f9d66b', 'Evidence matches and the submission is ready for maintainer approval'],
+              ['status:approved', '8fd18b', 'Maintainer approved; publication pull request may be created'],
+              ['status:published', '2da44e', 'Approved submission was merged through the publication pull request'],
+              ['status:rejected', 'd73a4a', 'Submission was rejected or cannot be verified']
+            ];
+
+            for (const [name, color, description] of labels) {
+              try {
+                await github.rest.issues.getLabel({ ...context.repo, name });
+                await github.rest.issues.updateLabel({ ...context.repo, name, new_name: name, color, description });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({ ...context.repo, name, color, description });
+              }
+            }
+
+  review-issue:
+    if: github.event_name == 'issues'
+    needs: setup-labels
+    runs-on: ubuntu-latest
+    outputs:
+      recognized: ${{ steps.status.outputs.recognized }}
+      status: ${{ steps.status.outputs.status }}
+      issue_number: ${{ steps.status.outputs.issue_number }}
+    steps:
+      - name: Normalize submission review status
+        id: status
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const title = String(issue?.title || '');
+            const recognized = /^\[Data\]\[Investment\]:/i.test(title)
+              || /^\[Data\]\[Star-Up\]:/i.test(title)
+              || /^\[Wiki\]:/i.test(title);
+
+            core.setOutput('recognized', recognized ? 'true' : 'false');
+            core.setOutput('issue_number', String(issue?.number || ''));
+            if (!recognized) {
+              core.setOutput('status', '');
+              return;
+            }
+
+            const canonical = new Map([
+              ['status:needs-review', 'needs-review'],
+              ['status:cross-checking', 'cross-checking'],
+              ['status:verified-candidate', 'verified-candidate'],
+              ['status:verified', 'verified-candidate'],
+              ['status:approved', 'approved'],
+              ['status:published', 'published'],
+              ['status:rejected', 'rejected']
+            ]);
+            const statusNames = new Set(canonical.keys());
+            const currentLabels = (issue.labels || []).map(label => typeof label === 'string' ? label : label.name).filter(Boolean);
+            const eventLabel = String(context.payload.label?.name || '').toLowerCase();
+            let target = '';
+
+            if (context.payload.action === 'labeled' && canonical.has(eventLabel)) {
+              target = canonical.get(eventLabel);
+            } else {
+              const priority = ['status:published', 'status:approved', 'status:verified-candidate', 'status:verified', 'status:cross-checking', 'status:rejected', 'status:needs-review'];
+              const found = priority.find(name => currentLabels.map(label => label.toLowerCase()).includes(name));
+              if (found) target = canonical.get(found);
+            }
+
+            if (!target) target = 'needs-review';
+            const targetLabel = `status:${target}`;
+
+            for (const label of currentLabels) {
+              const lower = label.toLowerCase();
+              if (!statusNames.has(lower) || lower === targetLabel) continue;
+              try {
+                await github.rest.issues.removeLabel({ ...context.repo, issue_number: issue.number, name: label });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+              }
+            }
+
+            if (!currentLabels.some(label => label.toLowerCase() === targetLabel)) {
+              await github.rest.issues.addLabels({ ...context.repo, issue_number: issue.number, labels: [targetLabel] });
+            }
+            if (currentLabels.some(label => label.toLowerCase() === 'status:verified')) {
+              try {
+                await github.rest.issues.removeLabel({ ...context.repo, issue_number: issue.number, name: 'status:verified' });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+              }
+            }
+
+            core.setOutput('status', target);
+
+      - name: Check out main for approved publication
+        if: steps.status.outputs.recognized == 'true' && steps.status.outputs.status == 'approved'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Prepare or refresh approved publication branch
+        if: steps.status.outputs.recognized == 'true' && steps.status.outputs.status == 'approved'
+        id: publication
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.status.outputs.issue_number }}
+        run: |
+          set -euo pipefail
+          branch="community/issue-${ISSUE_NUMBER}-approved"
+          record="data/community/approved/issue-${ISSUE_NUMBER}.json"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+
+          if git ls-remote --exit-code --heads origin "$branch" >/dev/null 2>&1; then
+            git fetch origin "$branch"
+            git checkout -B "$branch" "origin/$branch"
+            git merge --no-edit origin/main
+          else
+            git checkout -b "$branch" origin/main
+          fi
+
+          node scripts/export-approved-submission.mjs "$ISSUE_NUMBER" "$record"
+          git add "$record"
+          if ! git diff --cached --quiet; then
+            git commit -m "data: prepare approved community submission #${ISSUE_NUMBER}"
+            git push origin "$branch"
+          else
+            echo 'Approved publication record is already current.'
+          fi
+
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update controlled publication pull request
+        if: steps.status.outputs.recognized == 'true' && steps.status.outputs.status == 'approved'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.status.outputs.issue_number }}
+          BRANCH: ${{ steps.publication.outputs.branch }}
+        run: |
+          set -euo pipefail
+          pr_url="$(gh pr list --head "$BRANCH" --base main --state open --json url --jq '.[0].url // empty')"
+
+          if [[ -z "$pr_url" ]]; then
+            cat > /tmp/community-publication-pr.md <<EOF
+          ## Community publication
+
+          Source submission: #${ISSUE_NUMBER}
+
+          This pull request was created only after the submission received the maintainer-controlled \`status:approved\` label.
+
+          It publishes the normalized approved source record under \`data/community/approved/\`. Add any required planner/Wiki integration to this branch before merge. The protected \`main\` branch is never written directly by the approval workflow.
+
+          After this pull request is merged, the source issue is automatically marked \`status:published\` and closed as completed.
+          EOF
+            pr_url="$(gh pr create --base main --head "$BRANCH" --title "Publish approved community submission #${ISSUE_NUMBER}" --body-file /tmp/community-publication-pr.md)"
+            gh issue comment "$ISSUE_NUMBER" --body "Maintainer approval created the controlled publication PR: ${pr_url}"
+          fi
+
+          # PRs created with GITHUB_TOKEN do not reliably trigger pull_request workflows,
+          # so explicitly dispatch CI on the publication branch.
+          gh workflow run test.yml --ref "$BRANCH"
+          echo "Publication PR: $pr_url"
+
+  mark-published:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    needs: setup-labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark merged community publication as published
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pull = context.payload.pull_request;
+            const match = /^community\/issue-(\d+)-approved$/.exec(String(pull?.head?.ref || ''));
+            if (!match) return;
+
+            const issueNumber = Number(match[1]);
+            const { data: issue } = await github.rest.issues.get({ ...context.repo, issue_number: issueNumber });
+            const statusLabels = new Set([
+              'status:needs-review',
+              'status:cross-checking',
+              'status:verified-candidate',
+              'status:verified',
+              'status:approved',
+              'status:published',
+              'status:rejected'
+            ]);
+
+            for (const label of issue.labels || []) {
+              const name = typeof label === 'string' ? label : label.name;
+              if (!name || !statusLabels.has(name.toLowerCase()) || name.toLowerCase() === 'status:published') continue;
+              try {
+                await github.rest.issues.removeLabel({ ...context.repo, issue_number: issueNumber, name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+              }
+            }
+
+            if (!(issue.labels || []).some(label => String(typeof label === 'string' ? label : label.name).toLowerCase() === 'status:published')) {
+              await github.rest.issues.addLabels({ ...context.repo, issue_number: issueNumber, labels: ['status:published'] });
+            }
+            await github.rest.issues.update({ ...context.repo, issue_number: issueNumber, state: 'closed', state_reason: 'completed' });
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: issueNumber,
+              body: `Published through #${pull.number}. The approved source record is now part of the maintained repository.`
+            });
