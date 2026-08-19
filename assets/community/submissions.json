@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-19T23:51:23.337Z",
+  "generatedAt": "2026-08-19T23:54:07.359Z",
   "submissions": [
     {
       "issue": 18,
       "url": "https://github.com/Ipl0x/tgm-companion/issues/18",
       "type": "investment",
-      "status": "needs-review",
+      "status": "cross-checking",
       "state": "closed",
-      "updatedAt": "2026-08-19T23:39:02Z",
+      "updatedAt": "2026-08-19T23:53:59Z",
       "reports": 1,
       "title": "Test · Test · Lv. 1",
       "category": "Test",
