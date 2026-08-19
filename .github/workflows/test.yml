@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -25,7 +26,7 @@ jobs:
 
       - name: Check JavaScript syntax
         run: |
-          find src -type f -name '*.js' -print0 | xargs -0 -n1 node --check
+          find src scripts -type f \( -name '*.js' -o -name '*.mjs' \) -print0 | xargs -0 -n1 node --check
           node --check sw.js
 
       - name: Check required application files
@@ -34,6 +35,8 @@ jobs:
             index.html
             star-ups.html
             investments.html
+            wiki.html
+            community-data.html
             manifest.webmanifest
             sw.js
             .nojekyll
@@ -42,13 +45,21 @@ jobs:
             css/dashboard.css
             css/investments.css
             css/investments-legacy-tree.css
+            css/community-data.css
             src/app/dashboard.js
             src/app/starups.js
             src/app/investments.js
             src/app/pwa.js
+            src/app/community-data.js
+            scripts/build-community-feed.mjs
+            scripts/export-approved-submission.mjs
             .github/workflows/backup.yml
+            .github/workflows/community-data.yml
+            .github/workflows/community-review.yml
             .github/ISSUE_TEMPLATE/investment_data_submission.yml
             .github/ISSUE_TEMPLATE/star_up_data_submission.yml
+            .github/ISSUE_TEMPLATE/wiki_tip_correction.yml
+            data/community/approved/README.md
             LICENSE
             README.md
             SECURITY.md
