@@ -7,7 +7,9 @@ const REPOSITORY_ISSUE_URL = /^https:\/\/github\.com\/Ipl0x\/tgm-companion\/issu
 const STATUS_LABELS = Object.freeze({
   'needs-review': 'Needs review',
   'cross-checking': 'Cross-checking',
-  verified: 'Verified',
+  'verified-candidate': 'Verified candidate',
+  approved: 'Maintainer approved',
+  published: 'Published',
   rejected: 'Rejected'
 });
 const TYPE_LABELS = Object.freeze({
@@ -29,7 +31,9 @@ const elements = {
   noMatches: document.getElementById('communityNoMatches'),
   needsReview: document.getElementById('needsReviewCount'),
   crossChecking: document.getElementById('crossCheckingCount'),
-  verified: document.getElementById('verifiedCount'),
+  verifiedCandidate: document.getElementById('verifiedCandidateCount'),
+  approved: document.getElementById('approvedCount'),
+  published: document.getElementById('publishedCount'),
   total: document.getElementById('totalSubmissionCount')
 };
 
@@ -41,6 +45,7 @@ function normalize(value) {
 }
 
 function validStatus(value) {
+  if (value === 'verified') return 'verified-candidate';
   return Object.hasOwn(STATUS_LABELS, value) ? value : 'needs-review';
 }
 
@@ -175,7 +180,9 @@ function updateCounts() {
   }, {});
   elements.needsReview.textContent = counts['needs-review'] || 0;
   elements.crossChecking.textContent = counts['cross-checking'] || 0;
-  elements.verified.textContent = counts.verified || 0;
+  elements.verifiedCandidate.textContent = counts['verified-candidate'] || 0;
+  elements.approved.textContent = counts.approved || 0;
+  elements.published.textContent = counts.published || 0;
   elements.total.textContent = submissions.length;
 }
 

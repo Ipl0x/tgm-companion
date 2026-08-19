@@ -39,22 +39,24 @@
       <div>
         <span class="eyebrow">COMMUNITY VERIFICATION</span>
         <h1>See what players<br><em>have submitted.</em></h1>
-        <p>Community submissions remain separate from the maintained TGM Companion datasets until they have been reviewed. This page shows the review trail without treating unverified reports as official game data.</p>
+        <p>Community submissions stay separate from maintained TGM Companion data while they are being reviewed. Maintainer approval creates a controlled publication pull request instead of writing directly to the protected main branch.</p>
       </div>
       <aside class="panel community-hero-note">
         <span class="community-live-dot" aria-hidden="true"></span>
         <div>
-          <strong>Review first, publish second</strong>
-          <p>Matching reports can become verification candidates, but data is never automatically copied into the official Investment or Star-Up datasets.</p>
+          <strong>Review first, publish through a PR</strong>
+          <p>Evidence can move a report through review, but only a merged publication pull request turns an approved submission into a published maintained source record.</p>
         </div>
       </aside>
     </section>
 
     <section class="community-kpis" aria-label="Community data status overview">
+      <article class="panel"><small>Submitted</small><strong id="totalSubmissionCount">0</strong><span>all community reports</span></article>
       <article class="panel"><small>Needs review</small><strong id="needsReviewCount">0</strong><span>new or unchecked reports</span></article>
-      <article class="panel"><small>Cross-checking</small><strong id="crossCheckingCount">0</strong><span>reports being compared</span></article>
-      <article class="panel"><small>Verified</small><strong id="verifiedCount">0</strong><span>reviewed community records</span></article>
-      <article class="panel"><small>Total submissions</small><strong id="totalSubmissionCount">0</strong><span>published in this review feed</span></article>
+      <article class="panel"><small>Cross-checking</small><strong id="crossCheckingCount">0</strong><span>evidence being compared</span></article>
+      <article class="panel"><small>Verified candidate</small><strong id="verifiedCandidateCount">0</strong><span>ready for maintainer decision</span></article>
+      <article class="panel"><small>Maintainer approved</small><strong id="approvedCount">0</strong><span>publication PR pending</span></article>
+      <article class="panel"><small>Published</small><strong id="publishedCount">0</strong><span>merged maintained records</span></article>
     </section>
 
     <section class="panel community-workspace" aria-labelledby="communityReviewHeading">
@@ -62,7 +64,7 @@
         <div>
           <span class="step">01</span>
           <h2 id="communityReviewHeading">Submission review</h2>
-          <p>Search and filter submissions generated from GitHub Issues.</p>
+          <p>Search and filter submissions generated from GitHub Issues. Maintainers advance a submission by changing its <code>status:*</code> label in GitHub.</p>
         </div>
         <div class="community-feed-state">
           <small>Feed status</small>
@@ -91,7 +93,9 @@
             <option value="all">All statuses</option>
             <option value="needs-review">Needs review</option>
             <option value="cross-checking">Cross-checking</option>
-            <option value="verified">Verified</option>
+            <option value="verified-candidate">Verified candidate</option>
+            <option value="approved">Maintainer approved</option>
+            <option value="published">Published</option>
             <option value="rejected">Rejected</option>
           </select>
         </label>
@@ -107,7 +111,7 @@
       <div id="communityEmptyState" class="community-empty" hidden>
         <span>◇</span>
         <strong>No community submissions published yet</strong>
-        <p>The page is ready for the GitHub Issues feed. Once the issue-sync workflow publishes reviewed submission metadata, records will appear here automatically.</p>
+        <p>The page is connected to the GitHub Issues review feed. New supported Issue Form submissions will appear here automatically.</p>
       </div>
 
       <div id="communityNoMatches" class="community-empty" hidden>
@@ -121,12 +125,14 @@
       <article class="panel community-process">
         <div class="section-heading"><div><span class="step">02</span><h2>Verification flow</h2></div></div>
         <ol>
-          <li><span>1</span><div><strong>Submitted</strong><small>A player sends data through a structured GitHub Issue Form.</small></div></li>
+          <li><span>1</span><div><strong>Submitted</strong><small>A player sends data through a structured GitHub Issue Form. The workflow automatically starts it at Needs review.</small></div></li>
           <li><span>2</span><div><strong>Needs review</strong><small>The report is source material only and is not trusted automatically.</small></div></li>
-          <li><span>3</span><div><strong>Cross-checking</strong><small>Values can be compared against screenshots and independent reports.</small></div></li>
-          <li><span>4</span><div><strong>Verified candidate</strong><small>Matching evidence can make the record ready for maintainer approval.</small></div></li>
-          <li><span>5</span><div><strong>Maintainer approval</strong><small>Only an approved change may move data into the maintained app dataset.</small></div></li>
+          <li><span>3</span><div><strong>Cross-checking</strong><small>Values are compared against screenshots and, where available, independent reports.</small></div></li>
+          <li><span>4</span><div><strong>Verified candidate</strong><small>The evidence is consistent enough for a maintainer decision, but nothing is published yet.</small></div></li>
+          <li><span>5</span><div><strong>Maintainer approved</strong><small>Applying the approval label creates a dedicated publication branch and pull request. Main is never written directly.</small></div></li>
+          <li><span>6</span><div><strong>Published</strong><small>Only after the controlled publication pull request is merged is the source issue marked Published.</small></div></li>
         </ol>
+        <p class="community-process-note">A rejected report can be marked <code>status:rejected</code> at any review stage. The automation keeps only one review-status label on each supported submission.</p>
       </article>
 
       <article class="panel community-submit">
