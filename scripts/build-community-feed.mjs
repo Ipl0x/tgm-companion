@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const STATUS_ORDER = ['needs-review', 'cross-checking', 'verified', 'rejected'];
+const STATUS_ORDER = ['published', 'approved', 'verified-candidate', 'cross-checking', 'rejected', 'needs-review'];
 
 export function parseIssueSections(body = '') {
   const sections = new Map();
@@ -52,6 +52,9 @@ export function statusFromLabels(labels = []) {
   for (const status of STATUS_ORDER) {
     if (names.includes(`status:${status}`) || names.includes(status)) return status;
   }
+
+  // Backwards compatibility with the original four-state review flow.
+  if (names.includes('status:verified') || names.includes('verified')) return 'verified-candidate';
   return 'needs-review';
 }
 
@@ -85,6 +88,7 @@ export function issueToSubmission(issue) {
     url: issue.html_url,
     type,
     status: statusFromLabels(issue.labels),
+    state: issue.state || 'open',
     updatedAt: issue.updated_at,
     reports: 1
   };
