@@ -68,10 +68,14 @@ test('review workflow keeps one controlled status and creates a publication PR o
   assert.match(reviewWorkflow, /status:approved/);
   assert.match(reviewWorkflow, /status:published/);
   assert.match(reviewWorkflow, /status:rejected/);
+  assert.match(reviewWorkflow, /target === 'published' && actor !== 'github-actions\[bot\]'/);
+  assert.match(reviewWorkflow, /status:published is system-owned/);
   assert.match(reviewWorkflow, /community\/issue-\$\{ISSUE_NUMBER\}-approved/);
   assert.match(reviewWorkflow, /export-approved-submission\.mjs/);
   assert.match(reviewWorkflow, /data\/community\/approved\/issue-\$\{ISSUE_NUMBER\}\.json/);
   assert.match(reviewWorkflow, /gh pr create/);
+  assert.match(reviewWorkflow, /Allow GitHub Actions to create and approve pull requests/);
+  assert.match(reviewWorkflow, /remove and re-add \\`status:approved\\` to retry/);
   assert.match(reviewWorkflow, /gh workflow run test\.yml --ref/);
   assert.match(reviewWorkflow, /state_reason: 'completed'/);
   assert.doesNotMatch(reviewWorkflow, /git push origin (?:HEAD:)?main/);
