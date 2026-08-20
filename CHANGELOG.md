@@ -28,6 +28,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Community Data Maintainer Guide with the complete issue review, evidence-checking, approval, publication-PR, rejection, and Published workflow
 - Maintainer-focused GitHub Wiki source with Home, Community Data review, issue/label workflow, game-data review, approved-data publishing, development, architecture, data conventions, PWA/deployment, troubleshooting, and shared sidebar pages
 - Automatic GitHub Wiki synchronization from the reviewable `wiki/` source in `main`, keeping repository pull requests and CI as the source-of-truth workflow for maintainer documentation
+- Expanded maintainer Wiki with onboarding, daily operations, branch/protection policy, PR review checklist, release/deployment checklist, rollback/recovery, GitHub Actions reference, Community Data examples, dataset maintenance, security/secrets, storage/backup compatibility, roadmap/status, FAQ, and glossary pages
 
 ### Changed
 
