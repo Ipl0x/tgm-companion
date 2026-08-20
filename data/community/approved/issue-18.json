@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "sourceIssue": 18,
+  "sourceUrl": "https://github.com/Ipl0x/tgm-companion/issues/18",
+  "approvedAt": "2026-08-20T00:12:01.083Z",
+  "type": "investment",
+  "title": "Test · Test · Lv. 1",
+  "status": "approved",
+  "category": "Test",
+  "investment": "Test",
+  "level": 1,
+  "values": {
+    "originalTime": "1 day",
+    "cash": "1",
+    "arms": "1",
+    "cargo": "1",
+    "metal": "1",
+    "diamonds": "1",
+    "oil": "1",
+    "cryptoCoins": "1",
+    "familyCurrency": "1",
+    "familyInsignia": "1",
+    "gold": "1",
+    "influence": "1",
+    "prerequisites": "1",
+    "evidence": "[17869068019334655936544612582633.jpg](https://github.com/user-attachments/assets/00979885-7778-482c-b612-5cfd1cb1129a)"
+  }
+}
