@@ -1,0 +1,73 @@
+name: Sync GitHub Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - '.github/workflows/wiki.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-wiki-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out maintained Wiki source
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Publish maintained pages to GitHub Wiki
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          wiki_dir="$(mktemp -d)"
+          wiki_url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git"
+
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          if git clone "$wiki_url" "$wiki_dir"; then
+            echo 'Existing GitHub Wiki repository loaded.'
+          else
+            echo 'Wiki clone was unavailable; attempting the first Wiki commit.'
+            rm -rf "$wiki_dir"
+            mkdir -p "$wiki_dir"
+            git -C "$wiki_dir" init -b master
+            git -C "$wiki_dir" remote add origin "$wiki_url"
+          fi
+
+          find "$wiki_dir" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a "$GITHUB_WORKSPACE/wiki/." "$wiki_dir/"
+
+          git -C "$wiki_dir" add -A
+          if git -C "$wiki_dir" diff --cached --quiet; then
+            echo 'GitHub Wiki is already up to date.'
+            exit 0
+          fi
+
+          git -C "$wiki_dir" commit -m "docs: sync maintainer wiki from ${GITHUB_SHA}"
+
+          branch="$(git -C "$wiki_dir" symbolic-ref --short HEAD 2>/dev/null || true)"
+          if [[ -z "$branch" ]]; then
+            branch='master'
+          fi
+
+          if ! git -C "$wiki_dir" push origin "HEAD:${branch}"; then
+            echo 'GitHub rejected the Wiki push.' >&2
+            echo 'If this repository has never had a Wiki page, create the initial Home page once from the GitHub Wiki tab and rerun this workflow.' >&2
+            exit 1
+          fi
+
+          echo "Published Wiki branch: ${branch}"

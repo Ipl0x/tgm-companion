@@ -101,6 +101,8 @@ The `backup` branch is maintained automatically by `.github/workflows/backup.yml
 ├── index.html                         Dashboard
 ├── star-ups.html                      Building Star-Up Planner
 ├── investments.html                   Investment Planner
+├── wiki.html                          In-app player Wiki
+├── community-data.html                Community Data review page
 ├── manifest.webmanifest               PWA manifest
 ├── sw.js                              Service worker
 ├── assets/
@@ -113,13 +115,20 @@ The `backup` branch is maintained automatically by `.github/workflows/backup.yml
 │   ├── investments/                   Investment calculation engine
 │   ├── data/                          Browser and Node data loaders
 │   └── shared/                        Formatting and local storage helpers
+├── wiki/                              Maintained source for the GitHub Wiki
 ├── tests/                             Node test suite
-└── .github/                           CI, backup automation, and templates
+└── .github/                           CI, backup, Community Data, Wiki sync, and templates
 ```
 
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a change. Calculator or dataset changes should include a reproducible input and expected output.
+
+## Maintainer documentation
+
+The [GitHub Wiki](https://github.com/Ipl0x/tgm-companion/wiki) contains maintainer/contributor documentation for Community Data review, status labels, approved publication PRs, data conventions, architecture, PWA/deployment, and troubleshooting.
+
+The Wiki source is maintained under `wiki/` in this repository and synchronized after merged changes. The canonical detailed Community Data procedure also remains in [docs/COMMUNITY_DATA_REVIEW.md](docs/COMMUNITY_DATA_REVIEW.md).
 
 ## Versioning
 
