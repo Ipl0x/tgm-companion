@@ -26,6 +26,8 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Full community review lifecycle with `Needs review`, `Cross-checking`, `Verified candidate`, `Maintainer approved`, `Published`, and `Rejected` labels; new supported submissions automatically start at `Needs review`
 - Controlled publication workflow that turns maintainer-approved submissions into a dedicated `community/issue-<number>-approved` branch and pull request, stores the normalized approved source record under `data/community/approved/`, explicitly dispatches CI for the generated branch, and marks the source issue `Published` only after the publication PR is merged
 - Community Data Maintainer Guide with the complete issue review, evidence-checking, approval, publication-PR, rejection, and Published workflow
+- Maintainer-focused GitHub Wiki source with Home, Community Data review, issue/label workflow, game-data review, approved-data publishing, development, architecture, data conventions, PWA/deployment, troubleshooting, and shared sidebar pages
+- Automatic GitHub Wiki synchronization from the reviewable `wiki/` source in `main`, keeping repository pull requests and CI as the source-of-truth workflow for maintainer documentation
 
 ### Changed
 
