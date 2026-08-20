@@ -34,4 +34,4 @@ This Wiki documents how to maintain **TGM Companion**, review community submissi
 
 ## Editing this Wiki
 
-The source for these pages is kept under `wiki/` in the main repository and synchronized to the GitHub Wiki by GitHub Actions. Update the source through the normal branch → PR → CI → merge workflow instead of editing Wiki pages directly, because the next sync treats the repository source as authoritative.
+The source for these pages is kept under `wiki/` in the main repository and synchronized to the GitHub Wiki by GitHub Actions. The GitHub Wiki tab is the published mirror; changes should be made in the maintained `wiki/` source so they can be reviewed first. Update the source through the normal branch → PR → CI → merge workflow instead of editing Wiki pages directly, because the next sync treats the repository source as authoritative.
