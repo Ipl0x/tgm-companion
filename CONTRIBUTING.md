@@ -58,6 +58,14 @@ Changes to datasets, dependency handling, row mapping, resource calculations, or
 
 Do not replace exact source data with estimates.
 
+## Community data review
+
+Maintainers reviewing Investment, Star-Up, or Wiki submissions should follow the [Community Data Maintainer Guide](docs/COMMUNITY_DATA_REVIEW.md).
+
+Community submissions are source material only. They should move through the controlled `Needs review` → `Cross-checking` → `Verified candidate` → `Maintainer approved` → publication PR → `Published` lifecycle before becoming maintained TGM Companion data.
+
+Do not manually use `status:published`; that status is reserved for the automation after a controlled publication PR is merged.
+
 ## User interface changes
 
 Keep the established TGM layout and original game ordering unless the change explicitly intends to alter them. Include screenshots for visible changes and check both themes where relevant.
