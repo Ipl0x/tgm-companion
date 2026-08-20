@@ -60,11 +60,17 @@ Do not replace exact source data with estimates.
 
 ## Community data review
 
-Maintainers reviewing Investment, Star-Up, or Wiki submissions should follow the [Community Data Maintainer Guide](docs/COMMUNITY_DATA_REVIEW.md).
+Maintainers reviewing Investment, Star-Up, or Wiki submissions should follow the [Community Data Maintainer Guide](docs/COMMUNITY_DATA_REVIEW.md) and the maintainer-focused [GitHub Wiki](https://github.com/Ipl0x/tgm-companion/wiki).
 
 Community submissions are source material only. They should move through the controlled `Needs review` → `Cross-checking` → `Verified candidate` → `Maintainer approved` → publication PR → `Published` lifecycle before becoming maintained TGM Companion data.
 
 Do not manually use `status:published`; that status is reserved for the automation after a controlled publication PR is merged.
+
+## GitHub Wiki changes
+
+The GitHub Wiki source is stored under `wiki/` in the main repository. Change those Markdown files through the normal branch → pull request → CI → merge workflow. `.github/workflows/wiki.yml` synchronizes merged Wiki-source changes to GitHub's Wiki repository.
+
+Avoid editing the rendered GitHub Wiki directly because the next source sync treats `wiki/` as authoritative.
 
 ## User interface changes
 
