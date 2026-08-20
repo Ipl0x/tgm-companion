@@ -95,6 +95,15 @@ jobs:
             }
 
             if (!target) target = 'needs-review';
+
+            // Published is a system-owned terminal state. A maintainer can approve a
+            // submission, but only the merged publication-PR handler may publish it.
+            const actor = String(context.actor || context.payload.sender?.login || '').toLowerCase();
+            if (target === 'published' && actor !== 'github-actions[bot]') {
+              core.warning('status:published is system-owned; keeping this submission at Maintainer approved.');
+              target = 'approved';
+            }
+
             const targetLabel = `status:${target}`;
 
             for (const label of currentLabels) {
@@ -187,7 +196,21 @@ jobs:
 
           After this pull request is merged, the source issue is automatically marked \`status:published\` and closed as completed.
           EOF
-            pr_url="$(gh pr create --base main --head "$BRANCH" --title "Publish approved community submission #${ISSUE_NUMBER}" --body-file /tmp/community-publication-pr.md)"
+
+            error_file="$(mktemp)"
+            if ! pr_url="$(gh pr create --base main --head "$BRANCH" --title "Publish approved community submission #${ISSUE_NUMBER}" --body-file /tmp/community-publication-pr.md 2>"$error_file")"; then
+              cat > /tmp/community-publication-blocked.md <<EOF
+          The approval branch is ready, but GitHub Actions could not create the publication pull request.
+
+          Repository setting required: **Settings → Actions → General → Workflow permissions → Allow GitHub Actions to create and approve pull requests**.
+
+          Enable that setting, then remove and re-add \`status:approved\` to retry. No data was written directly to \`main\`.
+          EOF
+              gh issue comment "$ISSUE_NUMBER" --body-file /tmp/community-publication-blocked.md || true
+              cat "$error_file" >&2
+              exit 1
+            fi
+
             gh issue comment "$ISSUE_NUMBER" --body "Maintainer approval created the controlled publication PR: ${pr_url}"
           fi
 
