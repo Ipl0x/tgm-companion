@@ -44,6 +44,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Investment and Star-Up data submission links opening GitHub's blank issue editor instead of rendering the intended structured forms
 - Removed the incorrect `Investment Center Lv. 10` prerequisite from Freight Truck `Ultimate Protection`; its known prerequisite is now only `Extra Run Lv. 1`
 - New Submit Data GitHub issues not appearing on the Community Data page because no issue-sync workflow existed yet
+- Prevented `status:published` from being applied manually; only a merged controlled publication PR can mark a community submission Published. The approval workflow now leaves a clear issue comment when GitHub's repository setting blocks Actions from creating the publication PR.
 
 ## [0.2.0] - 2026-08-07
 
