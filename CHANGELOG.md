@@ -25,6 +25,7 @@ The project follows [Semantic Versioning](https://semver.org/).
 - Automatic GitHub Issue-to-Community Data synchronization that parses structured Investment, Star-Up, and Wiki submissions and publishes a generated snapshot to the separate `community-feed` branch
 - Full community review lifecycle with `Needs review`, `Cross-checking`, `Verified candidate`, `Maintainer approved`, `Published`, and `Rejected` labels; new supported submissions automatically start at `Needs review`
 - Controlled publication workflow that turns maintainer-approved submissions into a dedicated `community/issue-<number>-approved` branch and pull request, stores the normalized approved source record under `data/community/approved/`, explicitly dispatches CI for the generated branch, and marks the source issue `Published` only after the publication PR is merged
+- Community Data Maintainer Guide with the complete issue review, evidence-checking, approval, publication-PR, rejection, and Published workflow
 
 ### Changed
 
